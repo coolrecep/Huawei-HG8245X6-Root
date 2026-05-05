@@ -31,7 +31,6 @@ NAND dökümünün UBIFS bölümlerinden (`volume_9.raw` ve `hw_ctree.xml`) elde
 | **Telnet / CLI (Root)** | `sUser` / `root` | `EP!99R4HLH9E` |
 | **Web Arayüzü (Kısıtlı)** | `admin` | `superonline` |
 | **PPPoE (Fiber Auth)** | `110244098437@fiber` | `$2x$*n/Ok~~FYPf;'$q;...` (AES Encrypted) |
-| **Wi-Fi SSID** | `Efectus4K` | `Efectus1905` |
 | **TR-069 ACS Sunucu** | `superonlineacs` | `$2M\xR1w!!W0j{'78t...` (AES Encrypted) |
 
 *(Not: Admin arayüzü şifreleri PBKDF2 algoritması ile 10000 iterasyonla hashlenmiştir.)*
