@@ -184,7 +184,7 @@ Fiziksel donanım müdahalesi (NAND okuyucu) ile cihazdan alınan ham `firmware.
 
 İşte ham NAND dökümünün `binwalk` analiz raporu:
 
-```text
+```
 DECIMAL       HEXADECIMAL     DESCRIPTION
 --------------------------------------------------------------------------------
 63532         0xF82C          SHA256 hash constants, little endian
