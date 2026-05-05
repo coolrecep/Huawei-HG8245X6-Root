@@ -177,14 +177,13 @@ Huawei, standart `nc` (Netcat) aracını `/bin` içerisinden gizlemiştir (`nc: 
 * **HWNP vs whwh Formatı:** Yeni nesil Huawei ürün yazılımları beklenen `HWNP` sihirli numarası (magic header) yerine `whwh` imza formatını ve `SIGNINFO` sarmalayıcısını kullanır.
 * **SquashFS Koruması (SEC_SQS):** `allsystemA` içerisinden çıkartılan ana SquashFS imajı standart araçlarla (`unsquashfs`, `sasquatch`) açılmaya çalışıldığında LZMA sıkıştırması çözülse bile ID tabloları ve parçalanma (fragment) blok işaretçileri kasıtlı olarak bozularak/sıfırlanarak (`0x2fcecd9048fa6315` gibi geçersiz ofsetler) korunmuştur.
 * **Zafiyet:** Ancak dosya sistemi canlı (RAM üzerinde) çalışırken `binwalk -e` ile yapılan bir çıkarma işlemi veya canlı Netcat dökümleri bu korumayı aşmamıza olanak sağlamıştır.
-```
 ## 🗄️ Orijinal NAND Dump (`firmware.bin`) Analizi
 
 Fiziksel donanım müdahalesi (NAND okuyucu) ile cihazdan alınan ham `firmware.bin` dosyasının standart araçlarla çıkartılamamasının ardında Huawei'nin bellek yönetimi mimarisi yatmaktadır. 
 
 İşte ham NAND dökümünün `binwalk` analiz raporu:
 
-```
+```text
 DECIMAL       HEXADECIMAL     DESCRIPTION
 --------------------------------------------------------------------------------
 63532         0xF82C          SHA256 hash constants, little endian
@@ -203,4 +202,5 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 721466        0xB023A         PEM certificate
 807564        0xC528C         Certificate in DER format (x509 v3), header length: 4, sequence length: 1359
 2228224       0x220000        UBI erase count header, version: 1, EC: 0x1, VID header offset: 0x1000, data offset: 0x2000
+
 ```
