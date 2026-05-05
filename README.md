@@ -179,7 +179,7 @@ Huawei, standart `nc` (Netcat) aracını `/bin` içerisinden gizlemiştir (`nc: 
 * **Zafiyet:** Ancak dosya sistemi canlı (RAM üzerinde) çalışırken `binwalk -e` ile yapılan bir çıkarma işlemi veya canlı Netcat dökümleri bu korumayı aşmamıza olanak sağlamıştır.
 ## 🗄️ Orijinal NAND Dump (`firmware.bin`) Analizi
 
-Fiziksel donanım müdahalesi (NAND okuyucu) ile cihazdan alınan ham `firmware.bin` dosyasının standart araçlarla çıkartılamamasının ardında Huawei'nin bellek yönetimi mimarisi yatmaktadır. 
+Fiziksel donanım müdahalesi (NAND okuyucu) ile cihazdan alınan ham [`firmware.bin`](https://www.mediafire.com/file/lx6eq0sescq5tso/firmware.bin/file) dosyasının standart araçlarla çıkartılamamasının ardında Huawei'nin bellek yönetimi mimarisi yatmaktadır.
 
 İşte ham NAND dökümünün `binwalk` analiz raporu:
 
