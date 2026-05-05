@@ -1,6 +1,6 @@
 # Huawei HG8245X6 (and Similar ONT) Reverse Engineering & Root Guide
 
-Bu depo, Superonline (veya diğer ISP'ler) tarafından kilitlenmiş Huawei HG8245X6 (ve benzeri V500R021 serisi) Fiber ONT / Router cihazlarında tam root erişimi (Telnet/SSH) elde etme, donanımsal NAND dökümü alma, şifreli Firmware yapısını (whwh/HWNP) çözme ve konfigürasyon dosyalarını manipüle etme süreçlerini adım adım açıklamaktadır[cite: 3].
+Bu depo, Superonline (veya diğer ISP'ler) tarafından kilitlenmiş Huawei HG8245X6 (ve benzeri V500R021 serisi) Fiber ONT / Router cihazlarında tam root erişimi (Telnet/SSH) elde etme, donanımsal NAND dökümü alma, şifreli Firmware yapısını (whwh/HWNP) çözme ve konfigürasyon dosyalarını manipüle etme süreçlerini adım adım açıklamaktadır.
 
 ⚠️ **Uyarı:** Bu repodaki işlemler cihazınızı garanti dışı bırakabilir veya kullanılamaz (brick) hale getirebilir. Tüm sorumluluk size aittir.
 
@@ -14,37 +14,37 @@ Bu depo, Superonline (veya diğer ISP'ler) tarafından kilitlenmiş Huawei HG824
 ---
 
 ## 💻 Donanım ve Yazılım Bilgileri
-* **Cihaz Modeli:** Huawei HG8245X6 (Dahili ONT'li Wi-Fi 6 Router)[cite: 3]
-* **NAND Flash Çipi:** TC58CVG2S0HRAIG[cite: 3]
-* **İşletim Sistemi:** Dopra Linux (BusyBox v1.31.1)[cite: 2]
-* **Test Edilen Firmware Sürümü:** `V500R021C00SPC128B125`[cite: 3]
+* **Cihaz Modeli:** Huawei HG8245X6 (Dahili ONT'li Wi-Fi 6 Router)
+* **NAND Flash Çipi:** TC58CVG2S0HRAIG
+* **İşletim Sistemi:** Dopra Linux (BusyBox v1.31.1)
+* **Test Edilen Firmware Sürümü:** `V500R021C00SPC128B125`
 
-Başlangıçta cihazın 22 (SSH) ve 23 (Telnet) portları dışarıdan erişime tamamen kapalıdır (Filtered/Closed)[cite: 2, 3]. Web arayüzü (`admin` hesabı) üzerinden Telnet açma veya yapılandırma indirme menüleri gizlenmiştir[cite: 3].
+Başlangıçta cihazın 22 (SSH) ve 23 (Telnet) portları dışarıdan erişime tamamen kapalıdır (Filtered/Closed). Web arayüzü (`admin` hesabı) üzerinden Telnet açma veya yapılandırma indirme menüleri gizlenmiştir.
 
 ---
 
 ## 🗝️ Ganimet: Şifreler ve Kritik Bilgiler
-NAND dökümünün UBIFS bölümlerinden (`volume_9.raw` ve `hw_ctree.xml`) elde edilen açık metin şifreler ve kimlik bilgileri[cite: 3]:
+NAND dökümünün UBIFS bölümlerinden (`volume_9.raw` ve `hw_ctree.xml`) elde edilen açık metin şifreler ve kimlik bilgileri:
 
 | Tür | Kullanıcı Adı | Şifre / Değer |
 | :--- | :--- | :--- |
-| **Telnet / CLI (Root)** | `sUser` / `root` | `EP!99R4HLH9E`[cite: 2, 3] |
-| **Web Arayüzü (Kısıtlı)** | `admin` | `superonline`[cite: 3] |
-| **PPPoE (Fiber Auth)** | `110244098437@fiber` | `$2x$*n/Ok~~FYPf;'$q;...` (AES Encrypted)[cite: 3] |
-| **Wi-Fi SSID** | `Efectus4K` | `Efectus1905`[cite: 3] |
-| **TR-069 ACS Sunucu** | `superonlineacs` | `$2M\xR1w!!W0j{'78t...` (AES Encrypted)[cite: 3] |
+| **Telnet / CLI (Root)** | `sUser` / `root` | `EP!99R4HLH9E` |
+| **Web Arayüzü (Kısıtlı)** | `admin` | `superonline` |
+| **PPPoE (Fiber Auth)** | `110244098437@fiber` | `$2x$*n/Ok~~FYPf;'$q;...` (AES Encrypted) |
+| **Wi-Fi SSID** | `Efectus4K` | `Efectus1905` |
+| **TR-069 ACS Sunucu** | `superonlineacs` | `$2M\xR1w!!W0j{'78t...` (AES Encrypted) |
 
-*(Not: Admin arayüzü şifreleri PBKDF2 algoritması ile 10000 iterasyonla hashlenmiştir[cite: 3].)*
+*(Not: Admin arayüzü şifreleri PBKDF2 algoritması ile 10000 iterasyonla hashlenmiştir.)*
 
 ---
 
 ## 🚀 Yöntem 1: Özel Payload ile Telnet/SSH Açma
-Bu cihazlarda web arayüzünden config dosyası indirip yükleyerek Telnet açmak mümkün değildir[cite: 3]. Bunun yerine, cihazın ürün yazılımı güncelleme mekanizmasını kandırarak, Telnet'i kalıcı olarak açan ve "Çin Modu"nu (China Mode CLI) aktif eden özel bir `.bin` payload'u hazırladık[cite: 3].
+Bu cihazlarda web arayüzünden config dosyası indirip yükleyerek Telnet açmak mümkün değildir. Bunun yerine, cihazın ürün yazılımı güncelleme mekanizmasını kandırarak, Telnet'i kalıcı olarak açan ve "Çin Modu"nu (China Mode CLI) aktif eden özel bir `.bin` payload'u hazırladık.
 
 ### 1. Payload'u Derlemek
-Aşağıdaki bash betiği, cihazın sürümüne uygun sahte bir ürün yazılımı güncellemesi oluşturur[cite: 3]. Bu güncelleme yüklendiğinde, arka planda çalışan komut dosyası yapılandırma dosyasını (`hw_ctree.xml`) çözer (`aescrypt2`), `TELNETLanEnable` ve `SSHLanEnable` değerlerini 1 yapar, TR-069'u kapatır ve dosyayı geri şifreler[cite: 2, 3].
+Aşağıdaki bash betiği, cihazın sürümüne uygun sahte bir ürün yazılımı güncellemesi oluşturur. Bu güncelleme yüklendiğinde, arka planda çalışan komut dosyası yapılandırma dosyasını (`hw_ctree.xml`) çözer (`aescrypt2`), `TELNETLanEnable` ve `SSHLanEnable` değerlerini 1 yapar, TR-069'u kapatır ve dosyayı geri şifreler.
 
-Bunun için [HuaweiFirmwareTool](https://github.com/0xuserpag3/HuaweiFirmwareTool) gereklidir[cite: 3].
+Bunun için [HuaweiFirmwareTool](https://github.com/0xuserpag3/HuaweiFirmwareTool) gereklidir.
 
 ```bash
 mkdir -p payload_build/var
@@ -119,23 +119,23 @@ hw_fmw -d . -p -o HG8245X6_Root_Payload.bin
 ```
 
 ### 2. Payload'u Cihaza Göndermek
-1. Windows bilgisayarınızı Ethernet kablosu ile cihaza bağlayın ve IP adresinizi statik yapın (`192.168.1.100`)[cite: 3].
-2. `ONT使能2.0.exe` (ONT Enable Tool) aracını yönetici olarak çalıştırın[cite: 3].
-3. Ethernet kartınızı seçip, oluşturduğunuz `HG8245X6_Root_Payload.bin` dosyasını `Upgrade File` olarak yükleyip başlatın[cite: 3].
-4. Cihaz paket aldıktan sonra yeniden başlayacaktır[cite: 3].
-5. Port taramasında (Nmap) `22/tcp (Dropbear sshd)` ve `23/tcp (Huawei telnetd)` portlarının `OPEN` duruma geçtiğini göreceksiniz[cite: 2].
+1. Windows bilgisayarınızı Ethernet kablosu ile cihaza bağlayın ve IP adresinizi statik yapın (`192.168.1.100`).
+2. `ONT使能2.0.exe` (ONT Enable Tool) aracını yönetici olarak çalıştırın.
+3. Ethernet kartınızı seçip, oluşturduğunuz `HG8245X6_Root_Payload.bin` dosyasını `Upgrade File` olarak yükleyip başlatın.
+4. Cihaz paket aldıktan sonra yeniden başlayacaktır.
+5. Port taramasında (Nmap) `22/tcp (Dropbear sshd)` ve `23/tcp (Huawei telnetd)` portlarının `OPEN` duruma geçtiğini göreceksiniz.
 
 ### 3. Sisteme Giriş
 Terminal üzerinden:
 ```bash
 telnet 192.168.1.1
 ```
-* **Login:** `sUser`[cite: 2, 3]
-* **Password:** `EP!99R4HLH9E`[cite: 2, 3]
+* **Login:** `sUser`
+* **Password:** `EP!99R4HLH9E`
 
-Giriş yaptıktan sonra `WAP>` (Huawei Diagnostic Shell) konsoluna düşersiniz[cite: 2].
-1. `su` yazıp tekrar şifreyi girerek `SU_WAP>` moduna geçin[cite: 2].
-2. `shell` yazarak **Dopra Linux** kök işletim sistemine (`#`) düşün[cite: 2].
+Giriş yaptıktan sonra `WAP>` (Huawei Diagnostic Shell) konsoluna düşersiniz
+1. `su` yazıp tekrar şifreyi girerek `SU_WAP>` moduna geçin.
+2. `shell` yazarak **Dopra Linux** kök işletim sistemine (`#`) düşün.
 
 ---
 
@@ -147,7 +147,7 @@ Fiziksel donanıma (SPI/NAND programlayıcı) ihtiyaç duymadan, Root yetkisi el
 # WAP(Dopra Linux) terminalinde:
 cat /proc/mtd
 ```
-**Kritik Bölümler[cite: 2]:**
+**Kritik Bölümler:**
 * `mtd0`: bootcode (U-Boot)
 * `mtd2` / `mtd3`: flash_config (Şifreli XML konfigürasyonları)
 * `mtd6`: allsystemA (Kernel ve Kök Dosya Sistemi / SquashFS)
@@ -156,12 +156,12 @@ cat /proc/mtd
 Huawei, standart `nc` (Netcat) aracını `/bin` içerisinden gizlemiştir (`nc: not found` hatası verir) ancak BusyBox içerisine gömülü olarak durmaktadır[cite: 2]. 
 
 **Ağ üzerinden Dump Alma (Örnek: `mtd6`):**
-1. **Bilgisayarınızda (Fedora/Linux)** dinlemeyi başlatın[cite: 2]:
+1. **Bilgisayarınızda (Fedora/Linux)** dinlemeyi başlatın:
    ```bash
    nc -l -p 4444 > mtd6_allsystemA.bin
    
 ```
-2. **Modem Terminalinde (BusyBox)** veriyi gönderin[cite: 2]:
+2. **Modem Terminalinde (BusyBox)** veriyi gönderin:
    ```bash
    cat /dev/mtd6 | busybox nc 192.168.1.20 4444
    
@@ -171,7 +171,7 @@ Huawei, standart `nc` (Netcat) aracını `/bin` içerisinden gizlemiştir (`nc: 
 ---
 
 ## 🔬 NAND ve SquashFS Analizi (Tersine Mühendislik Notları)
-* **HWNP vs whwh Formatı:** Yeni nesil Huawei ürün yazılımları beklenen `HWNP` sihirli numarası (magic header) yerine `whwh` imza formatını ve `SIGNINFO` sarmalayıcısını kullanır[cite: 3].
-* **SquashFS Koruması (SEC_SQS):** `allsystemA` içerisinden çıkartılan ana SquashFS imajı standart araçlarla (`unsquashfs`, `sasquatch`) açılmaya çalışıldığında LZMA sıkıştırması çözülse bile ID tabloları ve parçalanma (fragment) blok işaretçileri kasıtlı olarak bozularak/sıfırlanarak (`0x2fcecd9048fa6315` gibi geçersiz ofsetler) korunmuştur[cite: 3].
-* **Zafiyet:** Ancak dosya sistemi canlı (RAM üzerinde) çalışırken `binwalk -e` ile yapılan bir çıkarma işlemi veya canlı Netcat dökümleri bu korumayı aşmamıza olanak sağlamıştır[cite: 2, 3].
+* **HWNP vs whwh Formatı:** Yeni nesil Huawei ürün yazılımları beklenen `HWNP` sihirli numarası (magic header) yerine `whwh` imza formatını ve `SIGNINFO` sarmalayıcısını kullanır.
+* **SquashFS Koruması (SEC_SQS):** `allsystemA` içerisinden çıkartılan ana SquashFS imajı standart araçlarla (`unsquashfs`, `sasquatch`) açılmaya çalışıldığında LZMA sıkıştırması çözülse bile ID tabloları ve parçalanma (fragment) blok işaretçileri kasıtlı olarak bozularak/sıfırlanarak (`0x2fcecd9048fa6315` gibi geçersiz ofsetler) korunmuştur.
+* **Zafiyet:** Ancak dosya sistemi canlı (RAM üzerinde) çalışırken `binwalk -e` ile yapılan bir çıkarma işlemi veya canlı Netcat dökümleri bu korumayı aşmamıza olanak sağlamıştır.
 ```
