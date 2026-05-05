@@ -1,4 +1,4 @@
-# Huawei HG8245X6 (and Similar ONT) Reverse Engineering & Root Guide
+# Huawei HG8245X6 Root Guide
 
 Bu depo, Superonline (veya diğer ISP'ler) tarafından kilitlenmiş Huawei HG8245X6 (ve benzeri V500R021 serisi) Fiber ONT / Router cihazlarında tam root erişimi (Telnet/SSH) elde etme, donanımsal NAND dökümü alma, şifreli Firmware yapısını (whwh/HWNP) çözme ve konfigürasyon dosyalarını manipüle etme süreçlerini adım adım açıklamaktadır.
 
