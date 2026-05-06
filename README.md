@@ -204,3 +204,29 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 2228224       0x220000        UBI erase count header, version: 1, EC: 0x1, VID header offset: 0x1000, data offset: 0x2000
 
 ```
+## 🗂️ NAND Bellek Haritası (MTD Partition Layout)
+
+Cihazdan başarılı bir şekilde aldığımız `full_nand_dump` içindeki MTD bloklarının boyutları ve Huawei mimarisindeki genel işlevleri aşağıdadır. 
+
+*Not: Çip toplam 512 MB boyutundadır. `mtd0` (Bootloader) işletim sistemi düzeyinde (Kernel) kilitli olduğu için doğrudan `dd` komutu ile kopyalanamaz, bu güvenlik sebebiyle normaldir.*
+
+| Partition | Dosya Boyutu | Çıkarılan Veri | Açıklama (Tahmini Huawei Yapısı) |
+| :--- | :--- | :--- | :--- |
+| **`mtd0`** | `N/A` | *Locked* | Bootloader / U-Boot (Çekirdek tarafından kilitli) |
+| **`mtd1`** | `510.0 MB` | `534,773,760 bytes` | **UBI Master / Tüm NAND:** Geri kalan tüm alt bölümleri kapsayan ana blok |
+| **`mtd2`** | `248.0 KB` | `253,952 bytes` | `flash_configA` (Birincil XML yapılandırmaları ve şifreler) |
+| **`mtd3`** | `248.0 KB` | `253,952 bytes` | `flash_configB` (Yedek XML yapılandırmaları) |
+| **`mtd4`** | `248.0 KB` | `253,952 bytes` | `slave_paramA` (Birincil operatör parametreleri) |
+| **`mtd5`** | `248.0 KB` | `253,952 bytes` | `slave_paramB` (Yedek operatör parametreleri) |
+| **`mtd6`** | `80.2 MB` | `84,058,112 bytes` | **`allsystemA` (Ana Firmware):** Aktif Linux Kernel ve SquashFS Kök Dosya Sistemi |
+| **`mtd7`** | `80.2 MB` | `84,058,112 bytes` | **`allsystemB` (Yedek Firmware):** Kurtarma/Yedek İşletim Sistemi imajı |
+| **`mtd8`** | `248.0 KB` | `253,952 bytes` | `board_info` (MAC Adresi, SN ve donanım kimlikleri) |
+| **`mtd9`** | `248.0 KB` | `253,952 bytes` | RF / WLAN Kalibrasyon verileri |
+| **`mtd10`** | `2.2 MB` | `2,285,568 bytes` | Sistem logları ve crash dump (Çökme) raporları |
+| **`mtd11`** | `20.1 MB` | `21,078,016 bytes` | `file_system` / JFFS2 (Değiştirilebilir kullanıcı ayarları ve verileri) |
+| **`mtd12`** | `295.2 MB` | `309,567,488 bytes` | `app_system` (Ekstra uygulamalar, SDK veya operatör bileşenleri) |
+
+### 🛠️ USB Bellek Üzerinden Döküm Alma Komutu
+Bu döküm, cihaza root yetkisiyle bağlanıp arayüze bir USB flash bellek (FAT32) takıldıktan sonra şu komutla elde edilmiştir:
+```bash
+for i in 0 1 2 3 4 5 6 7 8 9 10 11 12; do dd if=/dev/mtd$i of=/mnt/usb/usb-13fe-121A57_1/mtd${i}_dump.bin; echo "mtd$i kopyalamasi bitti!"; done; sync
