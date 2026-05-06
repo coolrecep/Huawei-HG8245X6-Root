@@ -29,6 +29,19 @@ Bu depo, Superonline (veya diğer ISP'ler) tarafından kilitlenmiş Huawei HG824
 * **Filesystem:** SquashFS (rootfs) + UBIFS / JFFS2 (config & app data)
 * **Build Toolchain:** gcc version 7.3.0 (Compiler CPU V200R006C10SPC010B002)
 
+### 🥷 Çekirdek Açılış Parametreleri (Kernel Boot Cmdline)
+
+Cihazın `dmesg` log okuma yetkisi (klogctl) donanımsal olarak kilitlenmiştir. Ancak `/proc/cmdline` üzerinden alınan boot parametreleri, cihazın UART ve dosya sistemi mimarisini açıkça ortaya koymaktadır:
+
+`noalign mem=494M flashsize=0x20000000 console=ttyAMA1,115200 root=/dev/mtdblock7 rootflags=image_off=0x28c094 rootfstype=squashfs mtdparts=hinand:0x200000(bootcode)raw,0x1fe00000(ubilayer_v5) ubi.mtd=1 maxcpus=2 flash_chip=spinand`
+
+**Donanım Hackleme (UART) İçin Önemli Notlar:**
+* **UART Konsol:** `ttyAMA1`
+* **Baud Rate:** `115200`
+* **RAM:** `512 MB` (494M Kullanılabilir)
+* **RootFS Başlangıç Ofseti:** `0x28c094` (SquashFS doğrudan bu ofsetten başlar)
+* **Fiziksel NAND Mimarisi:** Fiziksel olarak çip sadece 2 bölümdür. 2MB Bootcode (`0x200000`) ve UBI Katmanı (`0x1fe00000`). Geri kalan tüm MTD blokları UBI üzerinde çalışan mantıksal bölümlerdir.
+
 Başlangıçta cihazın 22 (SSH) ve 23 (Telnet) portları dışarıdan erişime tamamen kapalıdır (Filtered/Closed). Web arayüzü (`admin` hesabı) üzerinden Telnet açma veya yapılandırma indirme menüleri gizlenmiştir.
 
 ---
