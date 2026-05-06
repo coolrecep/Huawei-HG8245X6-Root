@@ -259,6 +259,17 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 2228224       0x220000        UBI erase count header, version: 1, EC: 0x1, VID header offset: 0x1000, data offset: 0x2000
 
 ```
+### 🧠 Derin Analiz: "Binwalk Körlüğü" ve Fiziksel NAND Geometrisi
+
+Ham NAND dökümünün standart araçlarla çıkartılamaması bir şifreleme değil, tamamen **fiziksel bellek geometrisi** ile ilgilidir. Cihazda root yetkisi elde edildikten sonra sistemin MTD sürücüleri incelenmiş ve şu fiziksel parametreler tespit edilmiştir:
+
+```bash
+WAP(Dopra Linux) # cat /sys/class/mtd/mtd0/oobsize
+256
+WAP(Dopra Linux) # cat /sys/class/mtd/mtd0/erasesize
+262144
+```
+
 ## 🗂️ NAND Bellek Haritası (MTD Partition Layout)
 
 Cihazdan başarılı bir şekilde aldığımız `full_nand_dump` içindeki MTD bloklarının boyutları ve Huawei mimarisindeki genel işlevleri aşağıdadır. 
