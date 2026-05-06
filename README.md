@@ -13,7 +13,6 @@ Bu depo, Superonline (veya diğer ISP'ler) tarafından kilitlenmiş Huawei HG824
 
 ---
 
-```markdown
 ## 💻 Donanım ve Yazılım Bilgileri
 * **Cihaz Modeli:** Huawei HG8245X6 (Dahili ONT'li Wi-Fi 6 Router)
 * **İşlemci (SoC):** HiSilicon - Hi1152 (Hi1152-GFCV100)
@@ -24,7 +23,6 @@ Bu depo, Superonline (veya diğer ISP'ler) tarafından kilitlenmiş Huawei HG824
 * **Yazılım Sürümü:** V5R021C00S128
 * **Test Edilen Firmware Sürümü:** `V500R021C00SPC128B125`
 * **Üretim Bilgisi:** 2150084230HYM3000324.C402
-```
 
 Başlangıçta cihazın 22 (SSH) ve 23 (Telnet) portları dışarıdan erişime tamamen kapalıdır (Filtered/Closed). Web arayüzü (`admin` hesabı) üzerinden Telnet açma veya yapılandırma indirme menüleri gizlenmiştir.
 
