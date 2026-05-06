@@ -285,3 +285,70 @@ Cihazdan başarılı bir şekilde aldığımız `full_nand_dump` içindeki MTD b
 Bu döküm, cihaza root yetkisiyle bağlanıp arayüze bir USB flash bellek (FAT32) takıldıktan sonra şu komutla elde edilmiştir:
 ```bash
 for i in 0 1 2 3 4 5 6 7 8 9 10 11 12; do dd if=/dev/mtd$i of=/mnt/usb/usb-13fe-121A57_1/mtd${i}_dump.bin; echo "mtd$i kopyalamasi bitti!"; done; sync
+```
+## 🛠️ Huawei WAP (Diagnostic) Gizli Komut Seti Referansı
+
+Huawei cihazlarında Telnet üzerinden `sUser` veya `root` yetkisiyle bağlandıktan sonra `SU_WAP>` kabuğunda (shell) kullanılabilecek gizli donanım, ağ ve tanılama komutlarının tam listesi aşağıda kategorize edilmiştir. 
+
+> ⚠️ **DİKKAT:** `set`, `clear`, `restore` ve `reset` ile başlayan komutlar cihazın konfigürasyonunu kalıcı olarak bozabilir veya cihazı fabrika ayarlarına döndürebilir. Lütfen ne yaptığınızı bilmiyorsanız sadece `display` ve `get` komutlarını kullanın!
+
+### 📊 1. Sistem ve Cihaz Bilgisi (System & Hardware)
+Cihazın genel durumunu, donanım kimliğini ve kaynak tüketimini gösteren komutlar:
+* `display deviceInfo` - Kapsamlı cihaz bilgisi (Model, SN, MAC, Uptime).
+* `display cpu info` - İşlemci mimarisi ve yük durumu.
+* `display memory detail` - RAM kullanım haritası (Hangi process ne kadar RAM tüketiyor).
+* `display inner version` / `display version` - Cihazın gizli imza sürümü ve yazılım versiyonu.
+* `display board-temperatures` - Anakart sıcaklık sensörleri.
+* `display flashlock status` - Flash bellek kilit durumu.
+* `sysinfo` / `display system info` - Genel sistem özetleri.
+
+### 📡 2. Fiber Optik ve GPON (Optical & PON)
+Fiber bağlantının kalitesini, lazer durumunu ve GPON parametrelerini incelemek için:
+* `display optic` - Optik modül anlık değerleri (Sıcaklık, Voltaj, Tx/Rx Sinyal Gücü).
+* `get optic par info` - Lazer modülünün marka/model (Vendor) bilgileri.
+* `display pon statistics` - PON hattındaki hata paketleri ve istatistikler.
+* `display onu info` - ONT (Terminal) kayıt durumu ve OLT ile olan iletişimi.
+* `omcicmd mib show` - OMCI (ONT Management and Control Interface) veritabanı.
+
+### 🌐 3. Ağ, Yönlendirme ve WAN (Network & Routing)
+Operatörün (ISP) atadığı IP'ler, VLAN'lar ve yönlendirme tabloları:
+* `display waninfo all detail` - Tüm WAN portları, VLAN ID'leri ve PPPoE/DHCP durumları.
+* `display ip route` / `ip route show` - IPv4 Yönlendirme (Routing) tablosu.
+* `display ip interface` - Tüm ağ arayüzleri ve atanan IP adresleri.
+* `display macaddress` - Cihazın ARP ve MAC adres tablosu.
+* `display dhcp server pool all` - Yerel ağdaki DHCP havuzu ve bağlı cihazlar.
+* `ifconfig` / `ping` / `traceroute` / `netstat -na` - Standart Linux ağ araçları.
+
+### 📶 4. Wi-Fi ve Kablosuz Ağ (WLAN / RF)
+Kablosuz ağ çiplerini ve bağlı cihazları yönetmek için:
+* `display wifichip` - Wi-Fi donanım durumu ve sürücü versiyonu.
+* `display wifi radio` - 2.4GHz ve 5GHz radyo frekans değerleri, kanal durumları.
+* `display wifi associate` - O an Wi-Fi'ye bağlı olan cihazların listesi ve sinyal (RSSI) kaliteleri.
+* `set wifi radio` / `set wifi para` - Wi-Fi parametrelerini komut satırından zorlamak için.
+
+### 🚪 5. Uzaktan Yönetim ve Güvenlik (TR-069 & Firewall)
+Operatörün arka kapı bağlantıları ve cihazın güvenlik duvarı:
+* `display tr069 info` - ACS sunucu adresi, şifreleri ve TR-069 aktiflik durumu.
+* `display cwmp status` - CWMP (TR-069) anlık bağlantı durumu.
+* `display firewall rule` - Güvenlik duvarı kuralları.
+* `display iptables filter` / `display iptables nat` - Netfilter / Iptables yönlendirme kuralları.
+
+### ☎️ 6. VoIP ve Ses Hizmetleri (Voice / DSP)
+Eğer cihazda sabit telefon (POTS) kullanılıyorsa:
+* `display voip info` - SIP hesap bilgileri ve kayıt durumu.
+* `vspa display dsp state` - DSP (Dijital Sinyal İşleyici) durumu.
+* `display voip ring info` - Çalan telefonun sinyal değerleri.
+
+### 🐞 7. Gelişmiş Hata Ayıklama (Debugging & Tracing)
+Mühendislik modları ve paket analizi:
+* `trafficdump` - Doğrudan cihaz üzerinden ağ trafiğini dinleme (Tcpdump benzeri).
+* `debugging ...` / `debug ...` - Belirli modüller (DSP, IGMP, DHCP vb.) için anlık hata ayıklama loglarını açar.
+* `ampcmd trace ...` - Düşük seviye çip ve ethernet paket izleme.
+* `display log info` / `display syslog` - Sistem hata ve olay günlükleri.
+
+### 💻 8. Sistem Kontrolü ve Yönetim (System Control)
+Kritik sistem eylemleri:
+* `shell` - WAP kabuğundan çıkıp tam yetkili (Root) **Dopra Linux** terminaline (`#`) geçiş yapar.
+* `reset` - Modemi donanımsal olarak yeniden başlatır (Reboot).
+* `restore manufactory` - Cihazı fabrikadan çıktığı ilk güne döndürür (Tüm konfigürasyon silinir).
+* `save data` - RAM'deki geçici değişiklikleri NAND Flash'a kalıcı olarak yazar.
