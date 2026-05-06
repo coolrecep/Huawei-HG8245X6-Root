@@ -2,8 +2,6 @@
 
 Bu depo, Superonline (veya diğer ISP'ler) tarafından kilitlenmiş Huawei HG8245X6 (ve benzeri V500R021 serisi) Fiber ONT / Router cihazlarında tam root erişimi (Telnet/SSH) elde etme, donanımsal NAND dökümü alma, şifreli Firmware yapısını (whwh/HWNP) çözme ve konfigürasyon dosyalarını manipüle etme süreçlerini adım adım açıklamaktadır.
 
-⚠️ **Uyarı:** Bu repodaki işlemler cihazınızı garanti dışı bırakabilir veya kullanılamaz (brick) hale getirebilir. Tüm sorumluluk size aittir.
-
 ⚠️ **Uyarı / Feragatname:** Bu depodaki bilgiler tamamen eğitim ve güvenlik araştırmaları (Reverse Engineering) amacıyla paylaşılmıştır. Yapacağınız işlemler (özellikle Firmware güncellemesi ve MTD bloklarına müdahale) cihazınızı garanti dışı bırakabilir veya "brick" (kullanılamaz) hale getirebilir. Tüm sorumluluk işlemi yapan kişiye aittir.
 
 ## 📌 İçindekiler
