@@ -4,6 +4,8 @@ Bu depo, Superonline (veya diğer ISP'ler) tarafından kilitlenmiş Huawei HG824
 
 ⚠️ **Uyarı:** Bu repodaki işlemler cihazınızı garanti dışı bırakabilir veya kullanılamaz (brick) hale getirebilir. Tüm sorumluluk size aittir.
 
+⚠️ **Uyarı / Feragatname:** Bu depodaki bilgiler tamamen eğitim ve güvenlik araştırmaları (Reverse Engineering) amacıyla paylaşılmıştır. Yapacağınız işlemler (özellikle Firmware güncellemesi ve MTD bloklarına müdahale) cihazınızı garanti dışı bırakabilir veya "brick" (kullanılamaz) hale getirebilir. Tüm sorumluluk işlemi yapan kişiye aittir.
+
 ## 📌 İçindekiler
 - [Donanım ve Yazılım Bilgileri](#donanım-ve-yazılım-bilgileri)
 - [Ganimet: Şifreler ve Kritik Bilgiler](#ganimet-şifreler-ve-kritik-bilgiler)
