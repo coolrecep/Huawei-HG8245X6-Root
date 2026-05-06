@@ -1,0 +1,13 @@
+mtd1_dump.bin filter=lfs diff=lfs merge=lfs -text
+mtd2_dump.bin filter=lfs diff=lfs merge=lfs -text
+mtd4_dump.bin filter=lfs diff=lfs merge=lfs -text
+mtd6_dump.bin filter=lfs diff=lfs merge=lfs -text
+mtd10_dump.bin filter=lfs diff=lfs merge=lfs -text
+mtd11_dump.bin filter=lfs diff=lfs merge=lfs -text
+mtd3_dump.bin filter=lfs diff=lfs merge=lfs -text
+mtd5_dump.bin filter=lfs diff=lfs merge=lfs -text
+mtd7_dump.bin filter=lfs diff=lfs merge=lfs -text
+mtd8_dump.bin filter=lfs diff=lfs merge=lfs -text
+mtd9_dump.bin filter=lfs diff=lfs merge=lfs -text
+mtd0_dump.bin filter=lfs diff=lfs merge=lfs -text
+mtd12_dump.bin filter=lfs diff=lfs merge=lfs -text
