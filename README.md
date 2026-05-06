@@ -15,19 +15,56 @@ Bu depo, Superonline (veya diğer ISP'ler) tarafından kilitlenmiş Huawei HG824
 
 ## 💻 Donanım ve Yazılım Bilgileri (Device Specifications)
 
-* **Cihaz Modeli (Product):** Huawei HG8245X6 (Dahili ONT'li Wi-Fi 6 Router)
-* **İşlemci (SoC):** HiSilicon - Hi1152 (Hi1152-GFCV100)
-* **PCB (Anakart):** DN8245XA
+* **Cihaz Modeli:** Huawei OptiXstar HG8245X6 GPON Terminal
+* **Donanım Özellikleri:** GPON 4*GE + 2.4G/5G Wi-Fi + 2POTS + 1USB
+* **İşlemci (SoC):** HiSilicon A9 (Çift Çekirdekli ARM Cortex-A9, BogoMIPS: 2190.54)
+* **RAM / Flash:** 512 MB / 512 MB (SPI-NAND)
 * **NAND Flash Çipi:** TC58CVG2S0HRAIG
+* **PCB (Anakart):** DN8245XA
 * **Donanım Sürümü (Hardware Version):** 1E8E.A
 * **Üretim Bilgisi (Production Info):** 2150084230HYM3000324.C402
+* **Çıkış Tarihi (Release Time):** 2022-03-16
 
 ### ⚙️ İşletim Sistemi ve Çekirdek Detayları
 * **Product Version:** V5R021C00S128
-* **Inner Version:** V500R021C00SPC128B125
+* **Inner Version:** `V500R021C00SPC128B125` *(Payload imzalama için kritik sürüm)*
+* **U-Boot Version:** HiSilicon U-Boot *(Çekirdek tarafından mtd0 kilitli)*
 * **Kernel Version:** Linux 4.4.240 (#1 SMP Fri Dec 17 01:10:57 CST 2021)
 * **Filesystem:** SquashFS (rootfs) + UBIFS / JFFS2 (config & app data)
 * **Build Toolchain:** gcc version 7.3.0 (Compiler CPU V200R006C10SPC010B002)
+
+---
+
+## 🔬 GPON ve Optik Modül (Fiber) Detayları
+Cihaz, anakarta entegre (BOB - BOSA On Board) bir optik modül kullanmaktadır.
+* **Optik Sınıfı:** CLASS B+
+* **Vendor PN:** HW-BOB-0008
+* **SOC Version:** 22
+* **Fiber Teşhis Komutu:** `display optic` (Rx/Tx güçlerini, sıcaklığı ve voltajı gösterir)
+
+---
+
+## 🌐 Superonline (ISP) Ağ Mimarisi ve VLAN Bilgileri
+Cihazın WAN arayüzü (`display waninfo all detail`) ve TR-069 yapılandırması incelendiğinde Superonline'ın kullandığı ağ mimarisi şu şekildedir. Kendi router'ınızı kullanmak isterseniz bu VLAN kimliklerine ihtiyacınız olacaktır:
+
+### WAN1 (İnternet, VoIP ve Yönetim)
+* **Servis Türü:** `TR069_VOIP_INTERNET`
+* **VLAN ID:** `100`
+* **802.1p (Öncelik):** `1`
+* **Protokol:** PPPoE (IPv4)
+* **MTU:** 1492
+
+### WAN2 (TV+ / IPTV)
+* **Servis Türü:** `IPTV`
+* **VLAN ID:** `103` (Multicast VLAN / MVLAN: 103)
+* **802.1p (Öncelik):** `4`
+* **Protokol:** DHCP (IPv4)
+* **MTU:** 1500
+
+### TR-069 (Uzaktan Yönetim - ACS)
+* **ACS Sunucu URL:** `http://acs.superonline.net:8015/cwmpWeb/WGCPEMgt`
+* **ACS Kullanıcı Adı:** `superonlineacs`
+* **CPE OUI:** `00E0FC` (Huawei Technologies)
 
 ### 🥷 Çekirdek Açılış Parametreleri (Kernel Boot Cmdline)
 
