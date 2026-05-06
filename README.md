@@ -269,6 +269,16 @@ WAP(Dopra Linux) # cat /sys/class/mtd/mtd0/oobsize
 WAP(Dopra Linux) # cat /sys/class/mtd/mtd0/erasesize
 262144
 ```
+### 🧩 UBI Mantıksal Bölümlemesi (Logical Volume Mapping)
+Cihazda `ubinfo` aracı Huawei tarafından silinmiş olsa da, root yetkisiyle doğrudan Kernel'in `/sys/class/ubi/` dizinine inildiğinde UBI katmanının devasa ham çipi nasıl mantıksal bölümlere ayırdığı net bir şekilde görülmektedir:
+
+```bash
+WAP(Dopra Linux) # ls -la /sys/class/ubi/
+lrwxrwxrwx    1 root     root             0 Jan  1 09:14 ubi0 -> ../../devices/virtual/ubi/ubi0
+lrwxrwxrwx    1 root     root             0 Jan  1 09:14 ubi0_0 -> ../../devices/virtual/ubi/ubi0/ubi0_0
+...
+lrwxrwxrwx    1 root     root             0 Jan  1 09:14 ubi0_10 -> ../../devices/virtual/ubi/ubi0/ubi0_10
+```
 
 ## 🗂️ NAND Bellek Haritası (MTD Partition Layout)
 
