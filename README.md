@@ -97,7 +97,7 @@ NAND dökümünün UBIFS bölümlerinden (`volume_9.raw` ve `hw_ctree.xml`) elde
 ---
 
 ## 🚀 Yöntem 1: Özel Payload ile Telnet/SSH Açma
-Bu cihazlarda web arayüzünden config dosyası indirip yükleyerek Telnet açmak mümkün değildir. Bunun yerine, cihazın ürün yazılımı güncelleme mekanizmasını kandırarak, Telnet'i kalıcı olarak açan ve "Çin Modu"nu (China Mode CLI) aktif eden özel bir `.bin` payload'u hazırladık.
+Bu cihazlarda web arayüzünden config dosyası indirip yükleyerek Telnet açmak mümkün değildir. Bunun yerine, cihazın ürün yazılımı güncelleme mekanizmasını kandırarak, root hesabını aktif eden özel bir `.bin` payload'u hazırladık.
 
 ### 1. Payload'u Derlemek
 Aşağıdaki bash betiği, cihazın sürümüne uygun sahte bir ürün yazılımı güncellemesi oluşturur. Bu güncelleme yüklendiğinde, arka planda çalışan komut dosyası yapılandırma dosyasını (`hw_ctree.xml`) çözer (`aescrypt2`), `TELNETLanEnable` ve `SSHLanEnable` değerlerini 1 yapar, TR-069'u kapatır ve dosyayı geri şifreler.
@@ -181,7 +181,6 @@ hw_fmw -d . -p -o HG8245X6_Root_Payload.bin
 2. `ONT使能2.0.exe` (ONT Enable Tool) aracını yönetici olarak çalıştırın.
 3. Ethernet kartınızı seçip, oluşturduğunuz `HG8245X6_Root_Payload.bin` dosyasını `Upgrade File` olarak yükleyip başlatın.
 4. Cihaz paket aldıktan sonra yeniden başlayacaktır.
-5. Port taramasında (Nmap) `22/tcp (Dropbear sshd)` ve `23/tcp (Huawei telnetd)` portlarının `OPEN` duruma geçtiğini göreceksiniz.
 
 ### 3. Sisteme Giriş
 Terminal üzerinden:
