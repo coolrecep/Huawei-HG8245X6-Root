@@ -180,19 +180,89 @@ hw_fmw -d . -p -o HG8245X6_Root_Payload.bin
 1. Windows bilgisayarınızı Ethernet kablosu ile cihaza bağlayın ve IP adresinizi statik yapın (`192.168.1.100`).
 2. `ONT使能2.0.exe` (ONT Enable Tool) aracını yönetici olarak çalıştırın.
 3. Ethernet kartınızı seçip, oluşturduğunuz `HG8245X6_Root_Payload.bin` dosyasını `Upgrade File` olarak yükleyip başlatın.
-4. Cihaz paket aldıktan sonra yeniden başlayacaktır.
+4. Paket aldıktan sonra cihazın ışıkları sönecek.
+5. Cihazı yeniden başlatın.
 
-### 3. Sisteme Giriş
-Terminal üzerinden:
+### 3. Telnet ve SSH Erişimini Açma (XML Konfigürasyon Dosyası)
+
+> **Not:** Önceki analizlerimizde Telnet/SSH erişiminin modifiye bir BIN dosyası (R22 vb.) ile açılabileceğini düşünmüştük. Ancak güncel ve herkes için çalışacak evrensel yöntem, cihazın gizli bir menüsünden konfigürasyon dosyasının çekilip düzenlenmesidir.
+>
+> *Gizli konfigürasyon sayfası bağlantısını keşfeden ve paylaşan **Ferdi Burak**'a teşekkürler.*
+
+**Adım 1: Yapılandırma Dosyasını İndirme**
+
+Tarayıcınız üzerinden cihazın aşağıdaki gizli konfigürasyon sayfasına giriş yapın:
+```text
+[http://192.168.1.1/html/ssmp/cfgfile/cfgfile.asp](http://192.168.1.1/html/ssmp/cfgfile/cfgfile.asp)
+```
+Bu sayfa üzerinden cihazın mevcut yapılandırma dosyasını (`hw_ctree.xml`) bilgisayarınıza indirin.
+
+**Adım 2: XML Dosyasını Düzenleme**
+
+İndirdiğiniz dosyayı bir metin editörü (Notepad++, VS Code vb.) ile açın ve `<AclServices` etiketini bulun. Dosyanın orijinal halinde yerel ağ için Telnet ve SSH kapalı durumdadır (`TELNETLanEnable="0"` ve `SSHLanEnable="0"`). 
+
+Erişimi açmak için bu değerleri `1` olarak değiştirin:
+
+```xml
+<AclServices HTTPLanEnable="1" HTTPWanEnable="0" FTPLanEnable="0" FTPWanEnable="0" TELNETLanEnable="1" TELNETWanEnable="0" SSHLanEnable="1" SSHWanEnable="0" HTTPPORT="80" FTPPORT="21" TELNETPORT="23" SSHPORT="22" HTTPWifiEnable="1" TELNETWifiEnable="0">
+```
+*(İsteğinize bağlı olarak `FTP` veya `HTTPWan` gibi diğer yetkileri de bu satır üzerinden yönetebilirsiniz.)*
+
+**Adım 3: Düzenlenen Dosyayı Geri Yükleme**
+
+Dosyayı kaydedin ve yine indirme yaptığınız `http://192.168.1.1/html/ssmp/cfgfile/cfgfile.asp` sayfası üzerinden modifiye ettiğiniz dosyayı cihaza **Upload (Restore)** edin. Yükleme tamamlandıktan sonra ayarların aktif olması için modemi yeniden başlatın.
+
+---
+
+### 4. Sisteme Giriş (Root ve Shell Erişimi)
+
+Cihaz yeniden açıldıktan ve Telnet/SSH erişimi aktif olduktan sonra Terminal (veya PuTTY) kullanarak cihaza bağlanabilirsiniz.
+
+**Terminal üzerinden bağlanmak için:**
 ```bash
 telnet 192.168.1.1
 ```
-* **Login:** `sUser`
-* **Password:** `EP!99R4HLH9E`
 
-Giriş yaptıktan sonra `WAP>` (Huawei Diagnostic Shell) konsoluna düşersiniz
-1. `su` yazıp tekrar şifreyi girerek `SU_WAP>` moduna geçin.
-2. `shell` yazarak **Dopra Linux** kök işletim sistemine (`#`) düşün.
+**Kimlik Bilgileri:**
+- **Login:** `sUser`
+- **Password:** `EP!99R4HLH9E`
+
+Giriş yaptıktan sonra `WAP>` (Huawei Diagnostic Shell) konsoluna düşeceksiniz. Tam yetkiye (root) sahip olmak için ayrıcalık yükseltmemiz gerekiyor:
+
+1. `su` komutunu girin.
+2. Şifreyi (`EP!99R4HLH9E`) tekrar girerek `SU_WAP>` yetkili moduna geçin.
+3. Son olarak `shell` yazarak Huawei'nin arka planda çalışan Dopra Linux kök işletim sistemine (`#`) düşün.
+
+```bash
+WAP> su
+Password:
+SU_WAP> shell
+#
+```
+
+Artık cihazın tüm dosya sistemine tam (root) erişim sağladınız!
+
+---
+
+### 5. R22.bin Tersine Mühendislik Analizi (Referans)
+
+*Bu bölüm, cihaza doğrudan dosya iterek (push) kalıcı değişiklikler yapmayı hedefleyen geliştiriciler ve exploit çalışmaları için referans olarak arşivlenmiştir.*
+
+Şu an elimizde, cihazda root/telnet erişimi sağlamak için kullanılan resmi veya sızdırılmış bir araç setine ait **R22.bin** dosyası mevcut. 
+- **Dosya Linki:** [Google Drive - R22.bin](https://drive.google.com/file/d/1736o4JLuJ6KGjDFAysB3yZH_gSLwmJYN/view)
+
+**R22.bin (Telnet Enablement Payload):**
+Bu dosya aslında standart bir firmware güncellemesi değildir. İçerisinde router'ı kandırıp özel scriptler çalıştırmasını sağlayan modifiye edilmiş bir HWNP formatlı güncelleme paketidir. Paketi parçaladığımızda (unpack) şu kritik dosyalar ortaya çıkıyor:
+- `var/duit9rr.sh` (Ana Exploit Scripti)
+- `mnt/jffs2/TelnetEnable`
+- `var/UpgradeCheck.xml`
+
+**Exploit'in Çalışma Mantığı (`duit9rr.sh`):**
+Router bu `R22.bin` dosyasını bir firmware güncellemesi sanarak kabul ettiğinde, içerisindeki `duit9rr.sh` scripti çalışır. Bu script şu işlemleri yapar:
+1. **Şifre Çözme:** Router'ın ana konfigürasyon dosyasını (`/mnt/jffs2/hw_ctree.xml`) Huawei'nin gömülü `aescrypt2` aracını kullanarak geçici bir dosyaya çözer.
+2. **Parametre Değiştirme:** `cfgtool` aracını kullanarak konfigürasyon içerisindeki `InternetGatewayDevice.X_HW_Security.AclServices TELNETLanEnable 1` gibi parametreleri zorla değiştirir.
+3. **Yeniden Şifreleme:** Değiştirilen konfigürasyon dosyasını tekrar şifreler ve orijinal dosyanın üzerine yazar.
+4. **Temizlik:** İzleri siler ve kendini imha eder.
 
 ---
 
