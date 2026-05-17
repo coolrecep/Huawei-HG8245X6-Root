@@ -179,6 +179,13 @@ hw_fmw -d . -p -o HG8245X6_Root_Payload.bin
 
 ### 2. Payload'u Cihaza Göndermek (Multicast Upgrade)
 
+Cihaza root erişimi (Telnet) sağlamak için Multicast Upgrade protokolü ile modifiye edilmiş bir `Payload.bin` dosyası gönderilmektedir.
+
+⚠️ **Kritik Kurallar (Zorunlu!):**
+1. **Fiber Kabloyu Çıkarın:** İşlem sırasında WAN portunda optik kablo kesinlikle olmamalıdır!
+2. **5 Dakika Sınırı:** İşlemi, modem fişten çekilip takıldıktan sonraki **ilk 5 dakika içinde** gerçekleştirmemiz belirtiliyor.
+3. **Güvenlik Duvarı:** Windows Firewall'u geçici olarak tamamen kapatın (Multicast engellenmemesi için).
+
 1. Windows bilgisayarınızı Ethernet kablosu ile cihaza doğrudan bağlayın ve ağ bağdaştırıcınızın IP adresini statik olarak ayarlayın (Örn: `192.168.1.100`).
 2. Multicast güncelleme aracını **yönetici olarak** çalıştırın. Repomuzda (Tools klasöründe) kullanabileceğiniz iki farklı sürüm bulunmaktadır:
    * **İngilizce Sürüm (Önerilen):** `ONT2.0.exe` *(Forumdaşımız **HEKZ** tarafından bu proje için özel olarak İngilizceye çevrilmiştir).*
