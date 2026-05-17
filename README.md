@@ -19,7 +19,9 @@ Bu depo, Superonline (veya diğer ISP'ler) tarafından kilitlenmiş Huawei HG824
 * **Donanım Özellikleri:** GPON 4*GE + 2.4G/5G Wi-Fi + 2POTS + 1USB
 * **İşlemci (SoC):** HiSilicon A9 (Çift Çekirdekli ARM Cortex-A9, BogoMIPS: 2190.54)
 * **RAM / Flash:** 512 MB / 512 MB (SPI-NAND)
-* **NAND Flash Çipi:** TC58CVG2S0HRAIG
+* **NAND Flash Bellek (512 MB SPI-NAND):** Cihazın üretim partisine göre iki farklı NAND çipi tespit edilmiştir:
+  * Varyasyon 1: **Kioxia/Toshiba `TC58CVG2S0HRAIG`**
+  * Varyasyon 2: **XTX Technology `XT26G04CWSIGA`**
 * **PCB (Anakart):** DN8245XA
 * **Donanım Sürümü (Hardware Version):** 1E8E.A
 * **Üretim Bilgisi (Production Info):** 2150084230HYM3000324.C402
