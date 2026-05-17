@@ -451,6 +451,31 @@ Mühendislik modları ve paket analizi:
 ### 💻 8. Sistem Kontrolü ve Yönetim (System Control)
 Kritik sistem eylemleri:
 * `shell` - WAP kabuğundan çıkıp tam yetkili (Root) **Dopra Linux** terminaline (`#`) geçiş yapar.
+
+## 🔑 Yetki Hiyerarşisi, Gizli Şifreler ve Kriptografi
+Cihazın yapılandırma dosyasından (`hw_ctree.xml`) çekilen parolalar, donanıma gömülü AES anahtarıyla şifrelenmiş ve ardından PBKDF2 (10000 iterasyon + Salt) ile hashlanmıştır. 
+
+Sistemdeki kullanıcılar ve yetki hiyerarşisi (Aşağıdan yukarıya doğru) şu şekildedir:
+
+### Yetki Seviyesi 1: Standart Yönetici
+* **Kullanıcı Adı:** `admin`
+* **Şifre:** `superonline`
+* **Erişim:** Kısıtlı Web arayüzü ayarları.
+
+### Yetki Seviyesi 0: Super User (Sistem Yöneticisi)
+* **Kullanıcı Adı:** `sUser`
+* **Şifre:** `EP!99R4HLH9E`
+* **Erişim:** Kapsamlı Web arayüzü ve standart root/telnet (`SU_WAP>`) erişimi.
+
+### 👑 God Mode (En Yüksek Sistem Yetkisi): `srv_ssmp`
+* **Kullanıcı Adı / Yetki Grubu:** `srv_ssmp`
+* **Erişim:** Cihazdaki **en yüksek** yetki seviyesidir. `sUser`'ın bile üzerinde yer alır. Huawei'nin arka planda çalışan çekirdek servislerini (SSMP Daemon) ve sistemin en derin donanım ayarlarını kontrol eden "Tanrı Modu" yetkisidir. Web arayüzünden bağımsızdır, doğrudan işletim sistemi çekirdeğiyle konuşur.
+
+### 📡 TR-069 (Uzaktan Yönetim - ACS)
+Superonline'ın modeme uzaktan müdahale etmek için kullandığı arka kapı protokolü:
+* **ACS Sunucu URL:** `http://acs.superonline.net:8015/cwmpWeb/WGCPEMgt`
+* **ACS Kullanıcı Adı:** `superonlineacs`
+* **ACS Şifresi:** `superonlineacs` *(Donanımsal hash üzerinden deşifre edilmiş açık metin)*
 * `reset` - Modemi donanımsal olarak yeniden başlatır (Reboot).
 * `restore manufactory` - Cihazı fabrikadan çıktığı ilk güne döndürür (Tüm konfigürasyon silinir).
 * `save data` - RAM'deki geçici değişiklikleri NAND Flash'a kalıcı olarak yazar.
