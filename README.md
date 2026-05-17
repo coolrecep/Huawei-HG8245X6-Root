@@ -177,12 +177,16 @@ EOF
 hw_fmw -d . -p -o HG8245X6_Root_Payload.bin
 ```
 
-### 2. Payload'u Cihaza Göndermek
-1. Windows bilgisayarınızı Ethernet kablosu ile cihaza bağlayın ve IP adresinizi statik yapın (`192.168.1.100`).
-2. `ONT使能2.0.exe` (ONT Enable Tool) aracını yönetici olarak çalıştırın.
-3. Ethernet kartınızı seçip, oluşturduğunuz `HG8245X6_Root_Payload.bin` dosyasını `Upgrade File` olarak yükleyip başlatın.
-4. Paket aldıktan sonra cihazın ışıkları sönecek.
-5. Cihazı yeniden başlatın.
+### 2. Payload'u Cihaza Göndermek (Multicast Upgrade)
+
+1. Windows bilgisayarınızı Ethernet kablosu ile cihaza doğrudan bağlayın ve ağ bağdaştırıcınızın IP adresini statik olarak ayarlayın (Örn: `192.168.1.100`).
+2. Multicast güncelleme aracını **yönetici olarak** çalıştırın. Repomuzda (Tools klasöründe) kullanabileceğiniz iki farklı sürüm bulunmaktadır:
+   * **İngilizce Sürüm (Önerilen):** `ONT2.0.exe` *(Forumdaşımız **HEKZ** tarafından bu proje için özel olarak İngilizceye çevrilmiştir).*
+   * **Orijinal Çince Sürüm:** `ONT使能2.0.exe`
+3. Aracın arayüzünden cihaza bağlı olduğunuz Ethernet kartınızı seçin.
+4. Bir önceki adımda oluşturduğunuz `HG8245X6_Root_Payload.bin` dosyasını seçerek `Upgrade File` (Güncelleme Dosyası) kısmına yükleyin ve işlemi başlatın (Start).
+5. Cihaz payload paketini başarıyla kabul ettiğinde, üzerindeki ışıklar tamamen sönecektir (veya farklı bir yanıp sönme rutinine girecektir).
+6. Işıklar söndükten sonra aracı durdurun ve cihazın fişini çekip takarak (hard reboot) yeniden başlatın.
 
 ### 3. Telnet ve SSH Erişimini Açma (XML Konfigürasyon Dosyası)
 
