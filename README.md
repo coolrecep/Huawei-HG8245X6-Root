@@ -78,6 +78,7 @@ Cihazın `dmesg` log okuma yetkisi (klogctl) donanımsal olarak kilitlenmiştir.
 * **RAM:** `512 MB` (494M Kullanılabilir)
 * **RootFS Başlangıç Ofseti:** `0x28c094` (SquashFS doğrudan bu ofsetten başlar)
 * **Fiziksel NAND Mimarisi:** Fiziksel olarak çip sadece 2 bölümdür. 2MB Bootcode (`0x200000`) ve UBI Katmanı (`0x1fe00000`). Geri kalan tüm MTD blokları UBI üzerinde çalışan mantıksal bölümlerdir.
+* UART üzerinden dinleme yapılabiliyor fakat MCU tarafından komut alımı kapalı. ~HEKZ
 
 Başlangıçta cihazın 22 (SSH) ve 23 (Telnet) portları dışarıdan erişime tamamen kapalıdır (Filtered/Closed). Web arayüzü (`admin` hesabı) üzerinden Telnet açma veya yapılandırma indirme menüleri gizlenmiştir.
 
