@@ -1,0 +1,681 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="HekzOntRace.Linux.LinuxMainWindow"
+        Title="HekzOntRace v2.0.0 — Huawei LG8245X6-50 / HG8245X6 Tool"
+        Width="1000" Height="600" MinWidth="1000" MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        SystemDecorations="BorderOnly"
+        Icon="/icon.ico">
+
+    <Border x:Name="RootWindowBorder" Background="{StaticResource Bg}" BorderBrush="{StaticResource Line}" BorderThickness="1">
+        <DockPanel LastChildFill="True">
+            <!-- ÖZEL TEMA UYUMLU BAŞLIK ÇUBUĞU (TITLE BAR) -->
+            <Border x:Name="TitleBarBorder" DockPanel.Dock="Top" Height="32" Background="{StaticResource BgCard}"
+                    BorderBrush="{StaticResource Line}" BorderThickness="0,0,0,1"
+                    PointerPressed="TitleBar_PointerPressed" DoubleTapped="TitleBar_DoubleTapped">
+                <Grid ColumnDefinitions="*,Auto">
+                    <!-- Sol: İkon + Başlık -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="11,0,0,0" IsHitTestVisible="False">
+                        <Viewbox Width="16" Height="16" VerticalAlignment="Center" Margin="0,0,7,0">
+                            <Canvas Width="64" Height="64">
+                                <Ellipse Canvas.Left="2" Canvas.Top="2" Width="60" Height="60" Fill="#0E639C"/>
+                                <Path Data="M20,40 Q32,24 44,40 M15,46 Q32,18 49,46 M25,34 Q32,28 39,34" Stroke="White" StrokeThickness="3" StrokeLineCap="Round"/>
+                                <Ellipse Canvas.Left="28.5" Canvas.Top="44.5" Width="7" Height="7" Fill="#FFC857"/>
+                            </Canvas>
+                        </Viewbox>
+                        <TextBlock x:Name="TitleBarMainText" Text="HekzOntRace v2.0.0" FontSize="11.5" FontWeight="SemiBold" Foreground="{StaticResource Fg}" VerticalAlignment="Center"/>
+                        <TextBlock Text="—" FontSize="11.5" Foreground="{StaticResource FgOff}" VerticalAlignment="Center" Margin="6,0"/>
+                        <Viewbox Width="11" Height="11" VerticalAlignment="Center" Margin="0,0,4,0">
+                            <Path Data="M3.67 6.14S1.82 7.91 1.72 9.78v0.35c0.08 1.51 1.22 2.4 1.22 2.4 1.83 1.79 6.26 4.04 7.3 4.55 0 0 0.06 0.03 0.1 -0.01l0.02 -0.04v-0.04C7.52 10.8 3.67 6.14 3.67 6.14zM9.65 18.6c-0.02 -0.08 -0.1 -0.08 -0.1 -0.08l-7.38 0.26c0.8 1.43 2.15 2.53 3.56 2.2 0.96 -0.25 3.16 -1.78 3.88 -2.3 0.06 -0.05 0.04 -0.09 0.04 -0.09zm0.08 -0.78C6.49 15.63 0.21 12.28 0.21 12.28c-0.15 0.46 -0.2 0.9 -0.21 1.3v0.07c0 1.07 0.4 1.82 0.4 1.82 0.8 1.69 2.34 2.2 2.34 2.2 0.7 0.3 1.4 0.31 1.4 0.31 0.12 0.02 4.4 0 5.54 0 0.05 0 0.08 -0.05 0.08 -0.05v-0.06c0 -0.03 -0.03 -0.05 -0.03 -0.05zM9.06 3.19a3.42 3.42 0 0 0 -2.57 3.15v0.41c0.03 0.6 0.16 1.05 0.16 1.05 0.66 2.9 3.86 7.65 4.55 8.65 0.05 0.05 0.1 0.03 0.1 0.03a0.1 0.1 0 0 0 0.06 -0.1c1.06 -10.6 -1.11 -13.42 -1.11 -13.42 -0.32 0.02 -1.19 0.23 -1.19 0.23zm8.299 2.27s-0.49 -1.8 -2.44 -2.28c0 0 -0.57 -0.14 -1.17 -0.22 0 0 -2.18 2.81 -1.12 13.43 0.01 0.07 0.06 0.08 0.06 0.08 0.07 0.03 0.1 -0.03 0.1 -0.03 0.72 -1.03 3.9 -5.76 4.55 -8.64 0 0 0.36 -1.4 0.02 -2.34zm-2.92 13.07s-0.07 0 -0.09 0.05c0 0 -0.01 0.07 0.03 0.1 0.7 0.51 2.85 2 3.88 2.3 0 0 0.16 0.05 0.43 0.06h0.14c0.69 -0.02 1.9 -0.37 3 -2.26l-7.4 -0.25zm7.83 -8.41c0.14 -2.06 -1.94 -3.97 -1.94 -3.98 0 0 -3.85 4.66 -6.67 10.8 0 0 -0.03 0.08 0.02 0.13l0.04 0.01h0.06c1.06 -0.53 5.46 -2.77 7.28 -4.54 0 0 1.15 -0.93 1.21 -2.42zm1.52 2.14s-6.28 3.37 -9.52 5.55c0 0 -0.05 0.04 -0.03 0.11 0 0 0.03 0.06 0.07 0.06 1.16 0 5.56 0 5.67 -0.02 0 0 0.57 -0.02 1.27 -0.29 0 0 1.56 -0.5 2.37 -2.27 0 0 0.73 -1.45 0.17 -3.14z"
+                                  Fill="#57B6F1" Stretch="Uniform"/>
+                        </Viewbox>
+                        <TextBlock x:Name="TitleBarSubText" Text="Huawei LG8245X6-50 / HG8245X6 Tool (Linux)" FontSize="11" Foreground="{StaticResource FgDim}" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Sağ: Pencere Kontrol Butonları -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Classes="TitleBarButton" Click="MinimizeWindow_Click" ToolTip.Tip="Simge Durumuna Küçült">
+                            <Path Data="M 0,5 L 10,5" Width="10" Height="10" Stroke="#E6E9F0" StrokeThickness="1.3"/>
+                        </Button>
+                        <Button x:Name="MaxRestoreBtn" Classes="TitleBarButton" Click="MaximizeRestoreWindow_Click" ToolTip.Tip="Ekranı Kapla">
+                            <Path x:Name="MaxRestoreIcon" Data="M 0.5,0.5 L 9.5,0.5 L 9.5,9.5 L 0.5,9.5 Z" Width="10" Height="10" Stroke="#E6E9F0" StrokeThickness="1.3"/>
+                        </Button>
+                        <Button Classes="TitleBarCloseButton" Click="CloseWindow_Click" ToolTip.Tip="Kapat">
+                            <Path Data="M 0,0 L 10,10 M 10,0 L 0,10" Width="10" Height="10" Stroke="#E6E9F0" StrokeThickness="1.4"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <DockPanel LastChildFill="True" Margin="8">
+                <!-- ÜST ŞERİT: logo + başlık + IP + giriş -->
+                <Border DockPanel.Dock="Top" Background="{StaticResource BgCard}" CornerRadius="6" Padding="9" Margin="0,0,0,7">
+                    <Grid ColumnDefinitions="42,Auto,*,Auto">
+                        <!-- vektörel logo -->
+                        <Viewbox Grid.Column="0" Width="34" Height="34" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Canvas Width="64" Height="64">
+                                <Ellipse Canvas.Left="2" Canvas.Top="2" Width="60" Height="60" Fill="#0E639C"/>
+                                <Path Data="M20,40 Q32,24 44,40 M15,46 Q32,18 49,46 M25,34 Q32,28 39,34" Stroke="White" StrokeThickness="3" StrokeLineCap="Round"/>
+                                <Ellipse Canvas.Left="28.5" Canvas.Top="44.5" Width="7" Height="7" Fill="#FFC857"/>
+                            </Canvas>
+                        </Viewbox>
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="3,0,10,0">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock x:Name="AppNameText" Text="HekzOntRace" FontSize="15" FontWeight="Bold"/>
+                                <Border x:Name="LiteBadge" Background="{StaticResource AccentLo}" BorderBrush="{StaticResource Accent}" BorderThickness="1" CornerRadius="3" Padding="4,1" Margin="6,0,0,0" VerticalAlignment="Center" IsVisible="False">
+                                    <TextBlock Text="LITE" FontSize="9" FontWeight="Bold" Foreground="{StaticResource AccentHi}"/>
+                                </Border>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,1,0,0">
+                                <Viewbox Width="11" Height="11" VerticalAlignment="Center" Margin="0,0,4,0">
+                                    <Path Data="M3.67 6.14S1.82 7.91 1.72 9.78v0.35c0.08 1.51 1.22 2.4 1.22 2.4 1.83 1.79 6.26 4.04 7.3 4.55 0 0 0.06 0.03 0.1 -0.01l0.02 -0.04v-0.04C7.52 10.8 3.67 6.14 3.67 6.14zM9.65 18.6c-0.02 -0.08 -0.1 -0.08 -0.1 -0.08l-7.38 0.26c0.8 1.43 2.15 2.53 3.56 2.2 0.96 -0.25 3.16 -1.78 3.88 -2.3 0.06 -0.05 0.04 -0.09 0.04 -0.09zm0.08 -0.78C6.49 15.63 0.21 12.28 0.21 12.28c-0.15 0.46 -0.2 0.9 -0.21 1.3v0.07c0 1.07 0.4 1.82 0.4 1.82 0.8 1.69 2.34 2.2 2.34 2.2 0.7 0.3 1.4 0.31 1.4 0.31 0.12 0.02 4.4 0 5.54 0 0.05 0 0.08 -0.05 0.08 -0.05v-0.06c0 -0.03 -0.03 -0.05 -0.03 -0.05zM9.06 3.19a3.42 3.42 0 0 0 -2.57 3.15v0.41c0.03 0.6 0.16 1.05 0.16 1.05 0.66 2.9 3.86 7.65 4.55 8.65 0.05 0.05 0.1 0.03 0.1 0.03a0.1 0.1 0 0 0 0.06 -0.1c1.06 -10.6 -1.11 -13.42 -1.11 -13.42 -0.32 0.02 -1.19 0.23 -1.19 0.23zm8.299 2.27s-0.49 -1.8 -2.44 -2.28c0 0 -0.57 -0.14 -1.17 -0.22 0 0 -2.18 2.81 -1.12 13.43 0.01 0.07 0.06 0.08 0.06 0.08 0.07 0.03 0.1 -0.03 0.1 -0.03 0.72 -1.03 3.9 -5.76 4.55 -8.64 0 0 0.36 -1.4 0.02 -2.34zm-2.92 13.07s-0.07 0 -0.09 0.05c0 0 -0.01 0.07 0.03 0.1 0.7 0.51 2.85 2 3.88 2.3 0 0 0.16 0.05 0.43 0.06h0.14c0.69 -0.02 1.9 -0.37 3 -2.26l-7.4 -0.25zm7.83 -8.41c0.14 -2.06 -1.94 -3.97 -1.94 -3.98 0 0 -3.85 4.66 -6.67 10.8 0 0 -0.03 0.08 0.02 0.13l0.04 0.01h0.06c1.06 -0.53 5.46 -2.77 7.28 -4.54 0 0 1.15 -0.93 1.21 -2.42zm1.52 2.14s-6.28 3.37 -9.52 5.55c0 0 -0.05 0.04 -0.03 0.11 0 0 0.03 0.06 0.07 0.06 1.16 0 5.56 0 5.67 -0.02 0 0 0.57 -0.02 1.27 -0.29 0 0 1.56 -0.5 2.37 -2.27 0 0 0.73 -1.45 0.17 -3.14z"
+                                          Fill="#57B6F1" Stretch="Uniform"/>
+                                </Viewbox>
+                                <TextBlock Text="Huawei LG8245X6-50" Foreground="{StaticResource AccentHi}" FontSize="10" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- giriş alanları -->
+                        <Grid Grid.Column="2" VerticalAlignment="Center" ColumnDefinitions="Auto,126,Auto,88,Auto,148">
+                            <Label Grid.Column="0" Content="Modem adresi:" Margin="0,0,4,0"/>
+                            <TextBox Grid.Column="1" x:Name="InputIp" Text="192.168.1.1" Margin="0,0,12,0" ToolTip.Tip="Varsayılan: 192.168.1.1 (veya 192.168.100.1 / 192.168.0.1 / 192.168.18.1)"/>
+                            <Label Grid.Column="2" Content="Kullanıcı:" Margin="0,0,4,0"/>
+                            <TextBox Grid.Column="3" x:Name="InputUser" Text="admin" Margin="0,0,12,0"/>
+                            <Label Grid.Column="4" Content="Şifre:" Margin="0,0,4,0"/>
+                            <Border Grid.Column="5" Background="{StaticResource BgInput}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="4" Height="26">
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <Viewbox Grid.Column="0" Width="12" Height="12" Margin="6,0,4,0" VerticalAlignment="Center">
+                                        <Canvas Width="16" Height="16">
+                                            <Path Data="M 5,7 V 5 A 3,3 0 0 1 11,5 V 7" Stroke="#9AA3B5" StrokeThickness="1.6" Fill="Transparent"/>
+                                            <Rectangle Canvas.Left="3" Canvas.Top="7" Width="10" Height="7.5" RadiusX="1.8" RadiusY="1.8" Fill="#9AA3B5"/>
+                                            <Ellipse Canvas.Left="7" Canvas.Top="9.8" Width="2" Height="2" Fill="#1C2130"/>
+                                        </Canvas>
+                                    </Viewbox>
+                                    <TextBox Grid.Column="1" x:Name="InputPass" Classes="BareSecret" Text="superonline" PasswordChar="•"/>
+                                    <Button Grid.Column="2" Classes="EyeToggleButton" Tag="InputPass" Click="ToggleSecret_Click" ToolTip.Tip="Şifreyi Göster / Gizle">
+                                        <Viewbox Width="13" Height="13">
+                                            <Path Data="M 1,8 C 2.8,4.2 5.3,2.5 8,2.5 C 10.7,2.5 13.2,4.2 15,8 C 13.2,11.8 10.7,13.5 8,13.5 C 5.3,13.5 2.8,11.8 1,8 Z M 8,5 A 3,3 0 1 0 8,11 A 3,3 0 1 0 8,5 Z M 8,6.4 A 1.6,1.6 0 1 0 8,9.6 A 1.6,1.6 0 1 0 8,6.4 Z"
+                                                  Fill="#8B93A7"/>
+                                        </Viewbox>
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <!-- Başlat / Durdur Tek Dinamik Buton -->
+                        <Grid Grid.Column="3" VerticalAlignment="Center" Margin="7,0,0,0">
+                            <Button x:Name="GoBtn" Content="BAŞLAT" Width="88" Click="Go_Click" IsDefault="True"
+                                    ToolTip.Tip="Modeme bağlanır, fabrika verilerini ve sistem konfigürasyonunu çekerek şifreleri ekrana döker."/>
+                            <Button x:Name="StopBtn" Content="DURDUR" Width="88" IsVisible="False"
+                                    Classes="DangerButton" Click="Stop_Click"
+                                    ToolTip.Tip="Devam eden işlemi iptal eder ve durdurur."/>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!-- ALT ÇUBUK: faz + progress -->
+                <Border DockPanel.Dock="Bottom" Background="{StaticResource BgCard}" CornerRadius="5" Padding="8,4" Margin="0,7,0,0">
+                    <Grid ColumnDefinitions="*,180">
+                        <Grid Grid.Column="0" ClipToBounds="True" Height="22" VerticalAlignment="Center">
+                            <TextBlock x:Name="PhaseText" Text="Hazır" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ProgressBar Grid.Column="1" x:Name="KurulumBar" Height="8" IsIndeterminate="True" IsVisible="False"/>
+                    </Grid>
+                </Border>
+
+                <!-- ANA SEKMELER -->
+                <Border Background="{StaticResource BgCard}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="6">
+                    <TabControl x:Name="MainTabs">
+
+                        <!-- SONUÇLAR -->
+                        <TabItem Header="Sonuçlar">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                                <StackPanel>
+                                    <HeaderedContentControl Header="Erişim bilgileri" Margin="0,0,0,10">
+                                        <Grid Margin="2,4,2,4" ColumnDefinitions="114,*,32,100,*" RowDefinitions="Auto,Auto,Auto">
+                                            <Label Grid.Row="0" Grid.Column="0" Content="SSID (gizlenmiş):" VerticalAlignment="Center" Margin="0,0,6,6"/>
+                                            <TextBox Grid.Row="0" Grid.Column="1" x:Name="ResSsid" IsReadOnly="True" Height="27" Margin="0,0,0,6"/>
+                                            <Label Grid.Row="0" Grid.Column="3" Content="WiFi şifresi:" VerticalAlignment="Center" Margin="0,0,6,6"/>
+                                            <Border Grid.Row="0" Grid.Column="4" Background="{StaticResource BgSoft}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="5" Height="27" Margin="0,0,0,6">
+                                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                                    <Viewbox Grid.Column="0" Width="13" Height="13" Margin="8,0,5,0" VerticalAlignment="Center">
+                                                        <Canvas Width="16" Height="16">
+                                                            <Path Data="M 5,7 V 5 A 3,3 0 0 1 11,5 V 7" Stroke="#9AA3B5" StrokeThickness="1.6" Fill="Transparent"/>
+                                                            <Rectangle Canvas.Left="3" Canvas.Top="7" Width="10" Height="7.5" RadiusX="1.8" RadiusY="1.8" Fill="#9AA3B5"/>
+                                                            <Ellipse Canvas.Left="7" Canvas.Top="9.8" Width="2" Height="2" Fill="#1C2130"/>
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                    <TextBox Grid.Column="1" x:Name="ResWifi" Classes="BareSecret" IsReadOnly="True"/>
+                                                    <Button Grid.Column="2" Classes="EyeToggleButton" Tag="ResWifi" Click="ToggleSecret_Click" ToolTip.Tip="Şifreyi Göster / Gizle">
+                                                        <Viewbox Width="14" Height="14">
+                                                            <Path Data="M 1,8 C 2.8,4.2 5.3,2.5 8,2.5 C 10.7,2.5 13.2,4.2 15,8 C 13.2,11.8 10.7,13.5 8,13.5 C 5.3,13.5 2.8,11.8 1,8 Z M 8,5 A 3,3 0 1 0 8,11 A 3,3 0 1 0 8,5 Z M 8,6.4 A 1.6,1.6 0 1 0 8,9.6 A 1.6,1.6 0 1 0 8,6.4 Z"
+                                                                  Fill="#8B93A7"/>
+                                                        </Viewbox>
+                                                    </Button>
+                                                </Grid>
+                                            </Border>
+
+                                            <Label Grid.Row="1" Grid.Column="0" Content="Web hesabı:" VerticalAlignment="Center" Margin="0,0,6,6"/>
+                                            <Border Grid.Row="1" Grid.Column="1" Background="{StaticResource BgSoft}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="5" Height="27" Margin="0,0,0,6">
+                                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                                    <Viewbox Grid.Column="0" Width="13" Height="13" Margin="8,0,5,0" VerticalAlignment="Center">
+                                                        <Canvas Width="16" Height="16">
+                                                            <Path Data="M 5,7 V 5 A 3,3 0 0 1 11,5 V 7" Stroke="#9AA3B5" StrokeThickness="1.6" Fill="Transparent"/>
+                                                            <Rectangle Canvas.Left="3" Canvas.Top="7" Width="10" Height="7.5" RadiusX="1.8" RadiusY="1.8" Fill="#9AA3B5"/>
+                                                            <Ellipse Canvas.Left="7" Canvas.Top="9.8" Width="2" Height="2" Fill="#1C2130"/>
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                    <TextBox Grid.Column="1" x:Name="ResAdmin" Classes="BareSecret" IsReadOnly="True"/>
+                                                    <Button Grid.Column="2" Classes="EyeToggleButton" Tag="ResAdmin" Click="ToggleSecret_Click" ToolTip.Tip="Şifreyi Göster / Gizle">
+                                                        <Viewbox Width="14" Height="14">
+                                                            <Path Data="M 1,8 C 2.8,4.2 5.3,2.5 8,2.5 C 10.7,2.5 13.2,4.2 15,8 C 13.2,11.8 10.7,13.5 8,13.5 C 5.3,13.5 2.8,11.8 1,8 Z M 8,5 A 3,3 0 1 0 8,11 A 3,3 0 1 0 8,5 Z M 8,6.4 A 1.6,1.6 0 1 0 8,9.6 A 1.6,1.6 0 1 0 8,6.4 Z"
+                                                                  Fill="#8B93A7"/>
+                                                        </Viewbox>
+                                                    </Button>
+                                                </Grid>
+                                            </Border>
+                                            <Label Grid.Row="1" Grid.Column="3" Content="sUser şifresi:" VerticalAlignment="Center" Margin="0,0,6,6"/>
+                                            <Border Grid.Row="1" Grid.Column="4" Background="{StaticResource BgSoft}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="5" Height="27" Margin="0,0,0,6">
+                                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                                    <Viewbox Grid.Column="0" Width="13" Height="13" Margin="8,0,5,0" VerticalAlignment="Center">
+                                                        <Canvas Width="16" Height="16">
+                                                            <Path Data="M 5,7 V 5 A 3,3 0 0 1 11,5 V 7" Stroke="#9AA3B5" StrokeThickness="1.6" Fill="Transparent"/>
+                                                            <Rectangle Canvas.Left="3" Canvas.Top="7" Width="10" Height="7.5" RadiusX="1.8" RadiusY="1.8" Fill="#9AA3B5"/>
+                                                            <Ellipse Canvas.Left="7" Canvas.Top="9.8" Width="2" Height="2" Fill="#1C2130"/>
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                    <TextBox Grid.Column="1" x:Name="ResSuser" Classes="BareSecret" IsReadOnly="True"/>
+                                                    <Button Grid.Column="2" Classes="EyeToggleButton" Tag="ResSuser" Click="ToggleSecret_Click" ToolTip.Tip="Şifreyi Göster / Gizle">
+                                                        <Viewbox Width="14" Height="14">
+                                                            <Path Data="M 1,8 C 2.8,4.2 5.3,2.5 8,2.5 C 10.7,2.5 13.2,4.2 15,8 C 13.2,11.8 10.7,13.5 8,13.5 C 5.3,13.5 2.8,11.8 1,8 Z M 8,5 A 3,3 0 1 0 8,11 A 3,3 0 1 0 8,5 Z M 8,6.4 A 1.6,1.6 0 1 0 8,9.6 A 1.6,1.6 0 1 0 8,6.4 Z"
+                                                                  Fill="#8B93A7"/>
+                                                        </Viewbox>
+                                                    </Button>
+                                                </Grid>
+                                            </Border>
+
+                                            <Label Grid.Row="2" Grid.Column="0" Content="PPPoE kullanıcı:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                            <TextBox Grid.Row="2" Grid.Column="1" x:Name="ResPppoeUser" IsReadOnly="True" Height="27" Margin="0,0,0,0"/>
+                                            <Label Grid.Row="2" Grid.Column="3" Content="PPPoE şifre:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                            <Border Grid.Row="2" Grid.Column="4" Background="{StaticResource BgSoft}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="5" Height="27" Margin="0,0,0,0">
+                                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                                    <Viewbox Grid.Column="0" Width="13" Height="13" Margin="8,0,5,0" VerticalAlignment="Center">
+                                                        <Canvas Width="16" Height="16">
+                                                            <Path Data="M 5,7 V 5 A 3,3 0 0 1 11,5 V 7" Stroke="#9AA3B5" StrokeThickness="1.6" Fill="Transparent"/>
+                                                            <Rectangle Canvas.Left="3" Canvas.Top="7" Width="10" Height="7.5" RadiusX="1.8" RadiusY="1.8" Fill="#9AA3B5"/>
+                                                            <Ellipse Canvas.Left="7" Canvas.Top="9.8" Width="2" Height="2" Fill="#1C2130"/>
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                    <TextBox Grid.Column="1" x:Name="ResPppoePass" Classes="BareSecret" IsReadOnly="True"/>
+                                                    <Button Grid.Column="2" Classes="EyeToggleButton" Tag="ResPppoePass" Click="ToggleSecret_Click" ToolTip.Tip="Şifreyi Göster / Gizle">
+                                                        <Viewbox Width="14" Height="14">
+                                                            <Path Data="M 1,8 C 2.8,4.2 5.3,2.5 8,2.5 C 10.7,2.5 13.2,4.2 15,8 C 13.2,11.8 10.7,13.5 8,13.5 C 5.3,13.5 2.8,11.8 1,8 Z M 8,5 A 3,3 0 1 0 8,11 A 3,3 0 1 0 8,5 Z M 8,6.4 A 1.6,1.6 0 1 0 8,9.6 A 1.6,1.6 0 1 0 8,6.4 Z"
+                                                                  Fill="#8B93A7"/>
+                                                        </Viewbox>
+                                                    </Button>
+                                                </Grid>
+                                            </Border>
+                                        </Grid>
+                                    </HeaderedContentControl>
+
+                                    <WrapPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <Button x:Name="CfgBtn" Content="📥 Konfigürasyon / PPPoE Çek" Padding="15,6" Margin="0,0,8,6" Click="Cfg_Click" IsEnabled="False"
+                                                ToolTip.Tip="Modemdeki güncel konfigürasyon veritabanını çeker, şifresini çözer ve WAN / PPPoE kimlik bilgilerini ayrıştırır."/>
+                                        <Button x:Name="RefreshInfoBtn" Content="🔄 Sistem Parametrelerini Yenile" Padding="15,6" Margin="0,0,8,6"
+                                                Click="RefreshInfo_Click" IsEnabled="False" Classes="GhostButton"
+                                                ToolTip.Tip="Web oturumu üzerinden donanım, WAN, DNS, WiFi ve güvenlik parametrelerini yeniden sorgulayarak günceller."/>
+                                        <Button x:Name="CopyAllBtn" Content="📋 Tüm Bilgileri Kopyala" Padding="15,6" Margin="0,0,8,6"
+                                                Click="CopyAllInfo_Click" IsEnabled="False" Classes="GhostButton"
+                                                ToolTip.Tip="PPPoE kullanıcı adı ve parolasını, sUser şifresini ve Wi-Fi şifresini tek tıkla panoya kopyalar."/>
+                                        <Button x:Name="OpenBrowserBtn" Content="🌐 Modemi Tarayıcıda Aç (192.168.1.1)" Padding="15,6" Margin="0,0,0,6"
+                                                Click="OpenBrowser_Click" Classes="GhostButton"
+                                                ToolTip.Tip="Modemin web yönetim sayfasını (192.168.1.1) varsayılan internet tarayıcınızda açar."/>
+                                    </WrapPanel>
+
+                                    <HeaderedContentControl x:Name="SuserBox" Header="Yönetici Erişimi ve Parola Yapılandırması (sUser / Root)" Margin="0,2,0,0" IsVisible="False">
+                                        <StackPanel>
+                                            <TextBlock x:Name="SuserBoxDesc" Foreground="{StaticResource FgDim}" TextWrapping="Wrap" Margin="0,0,0,8"
+                                                       Text="Cihaz ana konfigürasyon veritabanını 'sUser' yönetici hesabına yeni bir parola ile değiştirir. Orijinal konfigürasyon bloğu ve XML yedekleri Masaüstü/HekzONT dizinine güvenli bir şekilde arşivlenir."/>
+
+                                            <Border Background="{StaticResource BgSoft}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="4" Padding="10,7" Margin="0,0,0,9">
+                                                <Grid ColumnDefinitions="Auto,210,Auto,*">
+                                                    <Label Grid.Column="0" Content="Yeni sUser Parolası:" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                                    <Border Grid.Column="1" Background="{StaticResource BgInput}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="5" Height="27" Margin="0,0,8,0"
+                                                            ToolTip.Tip="Modeme kaydedilmesini istediğiniz sUser şifresini girin. Boş bırakırsanız otomatik güvenli şifre atanır.">
+                                                        <Grid ColumnDefinitions="Auto,*,Auto">
+                                                            <Viewbox Grid.Column="0" Width="12" Height="12" Margin="7,0,4,0" VerticalAlignment="Center">
+                                                                <Canvas Width="16" Height="16">
+                                                                    <Path Data="M 5,7 V 5 A 3,3 0 0 1 11,5 V 7" Stroke="#9AA3B5" StrokeThickness="1.6" Fill="Transparent"/>
+                                                                    <Rectangle Canvas.Left="3" Canvas.Top="7" Width="10" Height="7.5" RadiusX="1.8" RadiusY="1.8" Fill="#9AA3B5"/>
+                                                                    <Ellipse Canvas.Left="7" Canvas.Top="9.8" Width="2" Height="2" Fill="#1C2130"/>
+                                                                </Canvas>
+                                                            </Viewbox>
+                                                            <TextBox Grid.Column="1" x:Name="InputNewSuserPass" Classes="BareSecret" PasswordChar="•"
+                                                                     TextChanged="InputNewSuserPass_TextChanged"/>
+                                                            <Button Grid.Column="2" Classes="EyeToggleButton" Tag="InputNewSuserPass" Click="ToggleSecret_Click" ToolTip.Tip="Şifreyi Göster / Gizle">
+                                                                <Viewbox Width="13" Height="13">
+                                                                    <Path Data="M 1,8 C 2.8,4.2 5.3,2.5 8,2.5 C 10.7,2.5 13.2,4.2 15,8 C 13.2,11.8 10.7,13.5 8,13.5 C 5.3,13.5 2.8,11.8 1,8 Z M 8,5 A 3,3 0 1 0 8,11 A 3,3 0 1 0 8,5 Z M 8,6.4 A 1.6,1.6 0 1 0 8,9.6 A 1.6,1.6 0 1 0 8,6.4 Z"
+                                                                          Fill="#8B93A7"/>
+                                                                </Viewbox>
+                                                            </Button>
+                                                        </Grid>
+                                                    </Border>
+                                                    <Button Grid.Column="2" Content="🎲 Rastgele Üret" Padding="10,2" Margin="0,0,10,0" Classes="GhostButton"
+                                                            Click="RndSuserPass_Click" ToolTip.Tip="Kurallara uygun rastgele güvenli şifre oluşturup kutuya yazar."/>
+                                                    <TextBlock Grid.Column="3" x:Name="SuserPassStatusHint" VerticalAlignment="Center" FontSize="11" TextWrapping="Wrap"
+                                                               Foreground="{StaticResource FgDim}" Text="ℹ️ Boş bırakılırsa otomatik üretilir (En az 8 krktr, harf+rakam)"/>
+                                                </Grid>
+                                            </Border>
+
+                                            <WrapPanel Orientation="Horizontal" Margin="0,0,0,9">
+                                                <Button x:Name="SuserYazWebBtn" Content="⚡ Web Konfigürasyon Enjeksiyonu (Önerilen)" Padding="13,5" Margin="0,0,8,6" Click="SuserYazWeb_Click"
+                                                        ToolTip.Tip="Cihazın resmi web konfigürasyon yükleme servisi üzerinden, yeni sUser parolası enjekte edilmiş yapılandırmayı flash belleğe doğrudan yazar ve cihazı kontrollü olarak yeniden başlatır (Fiş çekme gerektirmez)."/>
+                                                <Button x:Name="SuserYazBtn" Content="🛠️ Donanım / Flash Enjeksiyonu (Race Modu)" Padding="13,5" Margin="0,0,8,6" Click="SuserYaz_Click"
+                                                        ToolTip.Tip="Dosya sistemi yarış döngüsü (TOCTOU) üzerinden doğrudan flash belleğe yazar. Kesintisiz yazma penceresi açılıp 'FİŞİ ÇEK' uyarısı çıktığı an modemin güç bağlantısı kesilmelidir."/>
+                                                <Button x:Name="HesapTemizleBtn" Content="🧹 Servis Hesaplarını Temizle" Padding="13,5" Margin="0,0,0,6"
+                                                        Click="HesapTemizle_Click" Classes="GhostButton"
+                                                        ToolTip.Tip="İşlem sırasında açılan SFTP ve Samba (SMB) dosya paylaşım servislerini ve geçici kullanıcı hesaplarını modemden kaldırarak yerel ağı güvenceye alır."/>
+                                            </WrapPanel>
+
+                                            <WrapPanel Orientation="Horizontal" Margin="0,2,0,2">
+                                                <CheckBox x:Name="TelnetSshCheck" Content="SSH / Telnet Root Shell Erişimini Aç" Margin="0,0,20,4" IsChecked="True" VerticalAlignment="Center"/>
+                                                <CheckBox x:Name="PaketTestiCheck" Content="Bütünlük Testi Modu (Simülasyon — Değişiklik Yapılmaz)" Margin="0,0,20,4" VerticalAlignment="Center" Foreground="{StaticResource FgDim}"/>
+                                                <CheckBox x:Name="HesapTemizleCheck" Content="İşlem Tamamlandığında Servis Hesaplarını Temizle" Margin="0,0,0,4" VerticalAlignment="Center" Foreground="{StaticResource FgDim}" IsChecked="True"/>
+                                            </WrapPanel>
+                                        </StackPanel>
+                                    </HeaderedContentControl>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <!-- CİHAZ -->
+                        <TabItem Header="Cihaz / Optik">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                                <StackPanel>
+                                    <HeaderedContentControl Header="Cihaz">
+                                        <Grid ColumnDefinitions="170,*,170,*" RowDefinitions="Auto,Auto,Auto,Auto">
+                                            <Label Grid.Row="0" Grid.Column="0" Content="Model:"/>              <TextBox Grid.Row="0" Grid.Column="1" x:Name="DevName" IsReadOnly="True"/>
+                                            <Label Grid.Row="0" Grid.Column="2" Content="Seri no:"/>            <TextBox Grid.Row="0" Grid.Column="3" x:Name="DevSerial" IsReadOnly="True"/>
+                                            <Label Grid.Row="1" Grid.Column="0" Content="Donanım:"/>            <TextBox Grid.Row="1" Grid.Column="1" x:Name="DevHw" IsReadOnly="True"/>
+                                            <Label Grid.Row="1" Grid.Column="2" Content="Yazılım:"/>            <TextBox Grid.Row="1" Grid.Column="3" x:Name="DevSw" IsReadOnly="True"/>
+                                            <Label Grid.Row="2" Grid.Column="0" Content="Bootloader:"/>         <TextBox Grid.Row="2" Grid.Column="1" x:Name="DevBoot" IsReadOnly="True"/>
+                                            <Label Grid.Row="2" Grid.Column="2" Content="MAC:"/>                <TextBox Grid.Row="2" Grid.Column="3" x:Name="DevMac" IsReadOnly="True"/>
+                                            <Label Grid.Row="3" Grid.Column="0" Content="Çalışma süresi:"/>     <TextBox Grid.Row="3" Grid.Column="1" x:Name="DevUptime" IsReadOnly="True"/>
+                                        </Grid>
+                                    </HeaderedContentControl>
+                                    <HeaderedContentControl Header="Optik (GPON)">
+                                        <Grid ColumnDefinitions="130,*,130,*" RowDefinitions="Auto,Auto">
+                                            <Label Grid.Row="0" Grid.Column="0" Content="PON modu:"/>       <TextBox Grid.Row="0" Grid.Column="1" x:Name="OptPonMode" IsReadOnly="True"/>
+                                            <Label Grid.Row="0" Grid.Column="2" Content="ONT durumu:"/>     <TextBox Grid.Row="0" Grid.Column="3" x:Name="OptOntState" IsReadOnly="True"/>
+                                            <Label Grid.Row="1" Grid.Column="0" Content="Optik tanılama:"/> <TextBox Grid.Row="1" Grid.Column="1" x:Name="OptTest" IsReadOnly="True"/>
+                                            <Label Grid.Row="1" Grid.Column="2" Content="OLT eşleşmesi:"/>  <TextBox Grid.Row="1" Grid.Column="3" x:Name="OptOlt" IsReadOnly="True"/>
+                                        </Grid>
+                                    </HeaderedContentControl>
+                                    <HeaderedContentControl Header="Optik güç değerleri (RX / TX / V / °C / Bias)">
+                                        <Grid ColumnDefinitions="130,*,130,*" RowDefinitions="Auto,Auto,Auto">
+                                            <Label Grid.Row="0" Grid.Column="0" Content="RX gücü (dBm):"/>  <TextBox Grid.Row="0" Grid.Column="1" x:Name="OptRx" IsReadOnly="True"/>
+                                            <Label Grid.Row="0" Grid.Column="2" Content="TX gücü (dBm):"/>  <TextBox Grid.Row="0" Grid.Column="3" x:Name="OptTx" IsReadOnly="True"/>
+                                            <Label Grid.Row="1" Grid.Column="0" Content="Besleme (V):"/>    <TextBox Grid.Row="1" Grid.Column="1" x:Name="OptV" IsReadOnly="True"/>
+                                            <Label Grid.Row="1" Grid.Column="2" Content="Sıcaklık (°C):"/>  <TextBox Grid.Row="1" Grid.Column="3" x:Name="OptT" IsReadOnly="True"/>
+                                            <Label Grid.Row="2" Grid.Column="0" Content="Bias akımı (mA):"/><TextBox Grid.Row="2" Grid.Column="1" x:Name="OptBias" IsReadOnly="True"/>
+                                            <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" x:Name="OptikNote"
+                                                       Foreground="{StaticResource FgDim}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </HeaderedContentControl>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <!-- WAN -->
+                        <TabItem Header="WAN / PPPoE">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                                <StackPanel>
+                                    <HeaderedContentControl Header="Bağlantı">
+                                        <Grid ColumnDefinitions="170,*,170,*" RowDefinitions="Auto,Auto,Auto">
+                                            <Label Grid.Row="0" Grid.Column="0" Content="Ad:"/>               <TextBox Grid.Row="0" Grid.Column="1" x:Name="WanName" IsReadOnly="True"/>
+                                            <Label Grid.Row="0" Grid.Column="2" Content="Durum:"/>            <TextBox Grid.Row="0" Grid.Column="3" x:Name="WanStatus" IsReadOnly="True"/>
+                                            <Label Grid.Row="1" Grid.Column="0" Content="IP:"/>               <TextBox Grid.Row="1" Grid.Column="1" x:Name="WanIp" IsReadOnly="True"/>
+                                            <Label Grid.Row="1" Grid.Column="2" Content="MTU:"/>              <TextBox Grid.Row="1" Grid.Column="3" x:Name="WanMtu" IsReadOnly="True"/>
+                                            <Label Grid.Row="2" Grid.Column="0" Content="PPPoE kullanıcı:"/>  <TextBox Grid.Row="2" Grid.Column="1" x:Name="WanPppUser" IsReadOnly="True"/>
+                                            <Label Grid.Row="2" Grid.Column="2" Content="PPPoE uptime (sn):"/><TextBox Grid.Row="2" Grid.Column="3" x:Name="WanPppUptime" IsReadOnly="True"/>
+                                        </Grid>
+                                    </HeaderedContentControl>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <!-- WIFI -->
+                        <TabItem Header="WiFi (2.4G / 5G)">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                                <StackPanel>
+                                    <HeaderedContentControl Header="2.4 GHz">
+                                        <Grid ColumnDefinitions="170,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                                            <Label Grid.Row="0" Grid.Column="0" Content="SSID:"/>        <TextBox Grid.Row="0" Grid.Column="1" x:Name="W24Ssid" IsReadOnly="True"/>
+                                            <Label Grid.Row="1" Grid.Column="0" Content="Kanal:"/>       <TextBox Grid.Row="1" Grid.Column="1" x:Name="W24Ch"  IsReadOnly="True"/>
+                                            <Label Grid.Row="2" Grid.Column="0" Content="Standart:"/>    <TextBox Grid.Row="2" Grid.Column="1" x:Name="W24Std" IsReadOnly="True"/>
+                                            <Label Grid.Row="3" Grid.Column="0" Content="Şifreleme:"/>   <TextBox Grid.Row="3" Grid.Column="1" x:Name="W24Enc" IsReadOnly="True"/>
+                                            <Label Grid.Row="4" Grid.Column="0" Content="Gizli SSID:"/>  <TextBox Grid.Row="4" Grid.Column="1" x:Name="W24Hide" IsReadOnly="True"/>
+                                        </Grid>
+                                    </HeaderedContentControl>
+                                    <HeaderedContentControl Header="5 GHz">
+                                        <Grid ColumnDefinitions="170,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                                            <Label Grid.Row="0" Grid.Column="0" Content="SSID:"/>        <TextBox Grid.Row="0" Grid.Column="1" x:Name="W5Ssid" IsReadOnly="True"/>
+                                            <Label Grid.Row="1" Grid.Column="0" Content="Kanal:"/>       <TextBox Grid.Row="1" Grid.Column="1" x:Name="W5Ch"  IsReadOnly="True"/>
+                                            <Label Grid.Row="2" Grid.Column="0" Content="Standart:"/>    <TextBox Grid.Row="2" Grid.Column="1" x:Name="W5Std" IsReadOnly="True"/>
+                                            <Label Grid.Row="3" Grid.Column="0" Content="Şifreleme:"/>   <TextBox Grid.Row="3" Grid.Column="1" x:Name="W5Enc" IsReadOnly="True"/>
+                                            <Label Grid.Row="4" Grid.Column="0" Content="Gizli SSID:"/>  <TextBox Grid.Row="4" Grid.Column="1" x:Name="W5Hide" IsReadOnly="True"/>
+                                        </Grid>
+                                    </HeaderedContentControl>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="DualSsidBtn" Content="Çift SSID yap (5G'ye _5G eki + görünür)"
+                                                Width="272" Click="DualSsid_Click" IsEnabled="False"/>
+                                        <TextBlock x:Name="DualSsidNote" Margin="9,0,0,0" VerticalAlignment="Center"
+                                                   Foreground="{StaticResource FgDim}" Text="Önce BAŞLAT ile cihaz okunmalı."/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <!-- DNS -->
+                        <TabItem Header="DNS">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                                <StackPanel>
+                                    <HeaderedContentControl Header="Mevcut DNS">
+                                        <Grid ColumnDefinitions="170,*" RowDefinitions="Auto,Auto">
+                                            <Label Grid.Row="0" Grid.Column="0" Content="Birincil DNS:"/> <TextBox Grid.Row="0" Grid.Column="1" x:Name="DnsCur1" IsReadOnly="True"/>
+                                            <Label Grid.Row="1" Grid.Column="0" Content="İkincil DNS:"/>  <TextBox Grid.Row="1" Grid.Column="1" x:Name="DnsCur2" IsReadOnly="True"/>
+                                        </Grid>
+                                    </HeaderedContentControl>
+                                    <HeaderedContentControl Header="Değiştir">
+                                        <StackPanel>
+                                            <Grid ColumnDefinitions="170,*" RowDefinitions="Auto,Auto,Auto">
+                                                <Label Grid.Row="0" Grid.Column="0" Content="Hazır profil:"/>
+                                                <ComboBox Grid.Row="0" Grid.Column="1" x:Name="DnsPreset" SelectedIndex="4" SelectionChanged="DnsPreset_Changed" HorizontalAlignment="Stretch">
+                                                    <ComboBoxItem Content="Cloudflare (1.1.1.1 / 1.0.0.1)"/>
+                                                    <ComboBoxItem Content="Google (8.8.8.8 / 8.8.4.4)"/>
+                                                    <ComboBoxItem Content="Quad9 (9.9.9.9 / 149.112.112.112)"/>
+                                                    <ComboBoxItem Content="Turkcell (213.74.1.1 / 213.74.0.1)"/>
+                                                    <ComboBoxItem Content="Özel..."/>
+                                                </ComboBox>
+                                                <Label Grid.Row="1" Grid.Column="0" Content="Yeni birincil:"/><TextBox Grid.Row="1" Grid.Column="1" x:Name="DnsNew1" Text="1.1.1.1"/>
+                                                <Label Grid.Row="2" Grid.Column="0" Content="Yeni ikincil:"/> <TextBox Grid.Row="2" Grid.Column="1" x:Name="DnsNew2" Text="8.8.8.8"/>
+                                            </Grid>
+                                            <Button x:Name="DnsApplyBtn" Content="DNS'i uygula" Width="132" HorizontalAlignment="Left"
+                                                    Margin="0,6,0,0" Click="DnsApply_Click" IsEnabled="False"/>
+                                        </StackPanel>
+                                    </HeaderedContentControl>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <!-- GÜVENLİK / ALG -->
+                        <TabItem Header="Güvenlik + ALG">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                                <StackPanel>
+                                    <HeaderedContentControl Header="Güvenlik duvarı">
+                                        <Grid ColumnDefinitions="130,160,130,*">
+                                            <Label Grid.Column="0" Content="Mevcut seviye:"/>
+                                            <TextBox Grid.Column="1" x:Name="FwLevel" IsReadOnly="True"/>
+                                            <Label Grid.Column="2" Content="Yeni seviye:" Margin="10,0,0,0"/>
+                                            <ComboBox Grid.Column="3" x:Name="FwLevelSel" SelectedIndex="0" HorizontalAlignment="Stretch">
+                                                <ComboBoxItem Content="Kapalı (Disable)"/>
+                                                <ComboBoxItem Content="Düşük (Low)"/>
+                                                <ComboBoxItem Content="Orta (Medium)"/>
+                                                <ComboBoxItem Content="Yüksek (High)"/>
+                                                <ComboBoxItem Content="Katı (Strict)"/>
+                                            </ComboBox>
+                                        </Grid>
+                                    </HeaderedContentControl>
+                                    <Button x:Name="FwApplyBtn" Content="Güvenlik seviyesini uygula" Width="190"
+                                            HorizontalAlignment="Left" Margin="0,0,0,8" Click="FwApply_Click" IsEnabled="False"/>
+
+                                    <HeaderedContentControl Header="ALG imzaları (Application Layer Gateway)">
+                                        <StackPanel>
+                                            <TextBlock Foreground="{StaticResource FgDim}" TextWrapping="Wrap" Margin="0,0,0,6"
+                                                       Text="İşaretledikleriniz AÇIK olarak uygulanır. Mevcut durum okunduğunda kutular otomatik işaretlenir."/>
+                                            <WrapPanel>
+                                                <CheckBox x:Name="CbAlgFTP"   Content="FTP"   Margin="0,0,16,6"/>
+                                                <CheckBox x:Name="CbAlgTFTP"  Content="TFTP"  Margin="0,0,16,6"/>
+                                                <CheckBox x:Name="CbAlgH323"  Content="H323"  Margin="0,0,16,6"/>
+                                                <CheckBox x:Name="CbAlgSIP"   Content="SIP"   Margin="0,0,16,6"/>
+                                                <CheckBox x:Name="CbAlgRTSP"  Content="RTSP"  Margin="0,0,16,6"/>
+                                                <CheckBox x:Name="CbAlgPPTP"  Content="PPTP"  Margin="0,0,16,6"/>
+                                                <CheckBox x:Name="CbAlgL2TP"  Content="L2TP"  Margin="0,0,16,6"/>
+                                                <CheckBox x:Name="CbAlgIPSec" Content="IPSec" Margin="0,0,16,6"/>
+                                                <CheckBox x:Name="CbAlgRTCP"  Content="RTCP"  Margin="0,0,16,6"/>
+                                            </WrapPanel>
+                                            <Button x:Name="AlgApplyBtn" Content="ALG seçimlerini uygula" Width="176"
+                                                    HorizontalAlignment="Left" Margin="0,4,0,6" Click="AlgApply_Click" IsEnabled="False"/>
+                                            <TextBlock x:Name="AlgNote" Foreground="{StaticResource FgDim}" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </HeaderedContentControl>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <!-- TR-069 -->
+                        <TabItem Header="TR-069">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                                <StackPanel>
+                                    <HeaderedContentControl Header="Uzaktan yönetim durumu">
+                                        <Grid ColumnDefinitions="170,*" RowDefinitions="Auto,Auto,Auto">
+                                            <Label Grid.Row="0" Grid.Column="0" Content="CWMP açık mı:"/>       <TextBox Grid.Row="0" Grid.Column="1" x:Name="Tr069Cwmp" IsReadOnly="True"/>
+                                            <Label Grid.Row="1" Grid.Column="0" Content="Periyodik bildirim:"/> <TextBox Grid.Row="1" Grid.Column="1" x:Name="Tr069Periodic" IsReadOnly="True"/>
+                                            <Label Grid.Row="2" Grid.Column="0" Content="ACS URL:"/>            <TextBox Grid.Row="2" Grid.Column="1" x:Name="Tr069Acs" IsReadOnly="True"/>
+                                        </Grid>
+                                    </HeaderedContentControl>
+                                    <HeaderedContentControl Header="Değiştir (seç ve uygula)">
+                                        <Grid ColumnDefinitions="130,190" RowDefinitions="Auto,Auto">
+                                            <Label Grid.Row="0" Grid.Column="0" Content="CWMP durumu:"/>
+                                            <ComboBox Grid.Row="0" Grid.Column="1" x:Name="Tr069CwmpSel" SelectedIndex="0" HorizontalAlignment="Stretch">
+                                                <ComboBoxItem Content="Kapalı (önerilen)"/>
+                                                <ComboBoxItem Content="Açık"/>
+                                            </ComboBox>
+                                            <Label Grid.Row="1" Grid.Column="0" Content="Periyodik bildirim:"/>
+                                            <ComboBox Grid.Row="1" Grid.Column="1" x:Name="Tr069PeriodicSel" SelectedIndex="0" HorizontalAlignment="Stretch">
+                                                <ComboBoxItem Content="Kapalı (önerilen)"/>
+                                                <ComboBoxItem Content="Açık"/>
+                                            </ComboBox>
+                                        </Grid>
+                                    </HeaderedContentControl>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="Tr069Btn" Content="Seçimi uygula" Width="130" Click="Tr069_Click" IsEnabled="False"/>
+                                        <Button x:Name="Tr069OffBtn" Content="TR-069'u kapat" Width="130" Margin="6,0,0,0"
+                                                Click="Tr069Off_Click" IsEnabled="False" Classes="GhostButton"/>
+                                    </StackPanel>
+                                    <TextBlock Margin="0,10,0,0" Foreground="{StaticResource FgDim}" TextWrapping="Wrap"
+                                               Text="Not: Operatör uzaktan desteği ve otomatik firmware güncellemeleri de durur."/>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <!-- YEDEKLEME -->
+                        <TabItem Header="Yedekle / Geri Yükle">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="10">
+                                <StackPanel>
+                                    <HeaderedContentControl Header="Yedek kapsamı (seçtikleriniz kaydedilir/geri yüklenir)">
+                                        <StackPanel>
+                                            <WrapPanel>
+                                                <CheckBox x:Name="CbWifi"      Content="WiFi (SSID + parola)"  IsChecked="True" Margin="0,0,18,6"/>
+                                                <CheckBox x:Name="CbDns"       Content="DNS"                   IsChecked="True" Margin="0,0,18,6"/>
+                                                <CheckBox x:Name="CbTr069"     Content="TR-069"               IsChecked="True" Margin="0,0,18,6"/>
+                                                <CheckBox x:Name="CbGuvenlik"  Content="Güvenlik + ALG"       IsChecked="True" Margin="0,0,18,6"/>
+                                                <CheckBox x:Name="CbWan"       Content="WAN / PPPoE bilgisi"  IsChecked="True" Margin="0,0,18,6"/>
+                                                <CheckBox x:Name="CbCihaz"     Content="Cihaz bilgisi"        IsChecked="True" Margin="0,0,18,6"/>
+                                            </WrapPanel>
+                                            <TextBlock Foreground="{StaticResource FgDim}" TextWrapping="Wrap" Margin="0,4,0,0"
+                                                       Text="Not: WAN/PPPoE ve cihaz bilgisi yalnızca kaydedilir (bilgi amaçlı); geri yüklemede yazılmaz."/>
+                                        </StackPanel>
+                                    </HeaderedContentControl>
+
+                                    <HeaderedContentControl Header="Yedek al">
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button x:Name="BackupProfileBtn" Content="Seçili ayarları yedekle (JSON)" Width="212"
+                                                        Click="BackupProfile_Click" IsEnabled="False"/>
+                                                <Button x:Name="BackupDeviceBtn" Content="Cihazın tam yedeğini indir" Width="196" Margin="6,0,0,0"
+                                                        Click="BackupDevice_Click" IsEnabled="False" Classes="GhostButton"/>
+                                            </StackPanel>
+                                            <TextBlock x:Name="BackupNote" Foreground="{StaticResource FgDim}" TextWrapping="Wrap" Margin="0,6,0,0"
+                                                       Text="JSON yedek: seçili ayarları okur, geri yüklerken adım adım doğrular. Cihaz yedeği: modem'in kendi tüm-ayar dosyası."/>
+                                        </StackPanel>
+                                    </HeaderedContentControl>
+
+                                    <HeaderedContentControl Header="Yedekten geri yükle">
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button x:Name="RestoreProfileBtn" Content="JSON profilden geri yükle" Width="190"
+                                                        Click="RestoreProfile_Click" IsEnabled="False"/>
+                                                <Button x:Name="RestoreDeviceBtn" Content="Cihaz yedeğini geri yükle" Width="190" Margin="6,0,0,0"
+                                                        Click="RestoreDevice_Click" IsEnabled="False" Classes="GhostButton"/>
+                                            </StackPanel>
+                                            <TextBlock x:Name="RestoreInfo" Foreground="{StaticResource FgDim}" TextWrapping="Wrap" Margin="0,6,0,0"
+                                                       Text="Geri yüklemeden önce profil/cihaz yedeği seçilir; her adım cihazdan geri okunarak doğrulanır."/>
+                                        </StackPanel>
+                                    </HeaderedContentControl>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </TabItem>
+
+                        <!-- LOG -->
+                        <TabItem Header="Log">
+                            <DockPanel>
+                                <Border DockPanel.Dock="Top" Background="{StaticResource BgCard}" Padding="8,5" Margin="0,0,0,4">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <WrapPanel Grid.Column="0" VerticalAlignment="Center">
+                                            <Label Content="Göster:" Margin="0,0,4,0"/>
+                                            <ComboBox x:Name="LogFiltre" Width="140" SelectedIndex="1" SelectionChanged="LogFiltre_Changed">
+                                                <ComboBoxItem Content="Tümü"/>
+                                                <ComboBoxItem Content="Yalnız önemli"/>
+                                                <ComboBoxItem Content="Yalnız sorunlar"/>
+                                            </ComboBox>
+                                            <CheckBox x:Name="LogOtoKaydir" Content="Otomatik kaydır" IsChecked="True"
+                                                      Margin="12,0,0,0" VerticalAlignment="Center"/>
+                                            <CheckBox x:Name="LogZaman" Content="Zaman damgası" IsChecked="True"
+                                                      Margin="12,0,0,0" VerticalAlignment="Center" Click="LogZaman_Click"/>
+                                            <TextBlock x:Name="LogOzet" Foreground="{StaticResource FgDim}" Margin="12,0,0,0"
+                                                       VerticalAlignment="Center"/>
+                                        </WrapPanel>
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                            <Button x:Name="LogKaydetBtn" Content="Logu kaydet" Width="106" Click="LogKaydet_Click"/>
+                                            <Button x:Name="LogKopyalaBtn" Content="Kopyala" Width="78" Margin="6,0,0,0"
+                                                    Click="LogKopyala_Click" Classes="GhostButton"/>
+                                            <Button x:Name="LogTemizleBtn" Content="Temizle" Width="78" Margin="6,0,0,0"
+                                                    Click="LogTemizle_Click" Classes="GhostButton"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                                <Border Background="#111111" Padding="8,6">
+                                    <ScrollViewer x:Name="LogScroll" VerticalScrollBarVisibility="Auto">
+                                        <StackPanel x:Name="LogPanel"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </DockPanel>
+                        </TabItem>
+
+                        <!-- HAKKINDA -->
+                        <TabItem Header="Hakkında">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                                <StackPanel>
+                                    <!-- Huawei LG8245X6-50 Üst Başlık / Modem Logo Kartı -->
+                                    <Border Background="{StaticResource BgCard}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="6" Padding="16,10" Margin="0,2,0,10">
+                                        <Grid ColumnDefinitions="Auto,*,Auto">
+                                            <Border Grid.Column="0" Background="{StaticResource BgSoft}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="6" Padding="12,6" VerticalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <!-- Huawei 8-Yapraklı Logo (#57B6F1) -->
+                                                    <Viewbox Width="38" Height="38" VerticalAlignment="Center" Margin="0,0,10,0">
+                                                        <Path Data="M3.67 6.14S1.82 7.91 1.72 9.78v0.35c0.08 1.51 1.22 2.4 1.22 2.4 1.83 1.79 6.26 4.04 7.3 4.55 0 0 0.06 0.03 0.1 -0.01l0.02 -0.04v-0.04C7.52 10.8 3.67 6.14 3.67 6.14zM9.65 18.6c-0.02 -0.08 -0.1 -0.08 -0.1 -0.08l-7.38 0.26c0.8 1.43 2.15 2.53 3.56 2.2 0.96 -0.25 3.16 -1.78 3.88 -2.3 0.06 -0.05 0.04 -0.09 0.04 -0.09zm0.08 -0.78C6.49 15.63 0.21 12.28 0.21 12.28c-0.15 0.46 -0.2 0.9 -0.21 1.3v0.07c0 1.07 0.4 1.82 0.4 1.82 0.8 1.69 2.34 2.2 2.34 2.2 0.7 0.3 1.4 0.31 1.4 0.31 0.12 0.02 4.4 0 5.54 0 0.05 0 0.08 -0.05 0.08 -0.05v-0.06c0 -0.03 -0.03 -0.05 -0.03 -0.05zM9.06 3.19a3.42 3.42 0 0 0 -2.57 3.15v0.41c0.03 0.6 0.16 1.05 0.16 1.05 0.66 2.9 3.86 7.65 4.55 8.65 0.05 0.05 0.1 0.03 0.1 0.03a0.1 0.1 0 0 0 0.06 -0.1c1.06 -10.6 -1.11 -13.42 -1.11 -13.42 -0.32 0.02 -1.19 0.23 -1.19 0.23zm8.299 2.27s-0.49 -1.8 -2.44 -2.28c0 0 -0.57 -0.14 -1.17 -0.22 0 0 -2.18 2.81 -1.12 13.43 0.01 0.07 0.06 0.08 0.06 0.08 0.07 0.03 0.1 -0.03 0.1 -0.03 0.72 -1.03 3.9 -5.76 4.55 -8.64 0 0 0.36 -1.4 0.02 -2.34zm-2.92 13.07s-0.07 0 -0.09 0.05c0 0 -0.01 0.07 0.03 0.1 0.7 0.51 2.85 2 3.88 2.3 0 0 0.16 0.05 0.43 0.06h0.14c0.69 -0.02 1.9 -0.37 3 -2.26l-7.4 -0.25zm7.83 -8.41c0.14 -2.06 -1.94 -3.97 -1.94 -3.98 0 0 -3.85 4.66 -6.67 10.8 0 0 -0.03 0.08 0.02 0.13l0.04 0.01h0.06c1.06 -0.53 5.46 -2.77 7.28 -4.54 0 0 1.15 -0.93 1.21 -2.42zm1.52 2.14s-6.28 3.37 -9.52 5.55c0 0 -0.05 0.04 -0.03 0.11 0 0 0.03 0.06 0.07 0.06 1.16 0 5.56 0 5.67 -0.02 0 0 0.57 -0.02 1.27 -0.29 0 0 1.56 -0.5 2.37 -2.27 0 0 0.73 -1.45 0.17 -3.14z"
+                                                              Fill="#57B6F1" Stretch="Uniform"/>
+                                                    </Viewbox>
+                                                    <!-- 4 Antenli LG8245X6-50 Modem İkonu -->
+                                                    <Viewbox Width="44" Height="36" VerticalAlignment="Center" Margin="0,0,10,0">
+                                                        <Canvas Width="52" Height="44">
+                                                            <Line StartPoint="9,26" EndPoint="7,3" Stroke="#57B6F1" StrokeThickness="2.4" StrokeLineCap="Round"/>
+                                                            <Line StartPoint="19,26" EndPoint="19,2" Stroke="#57B6F1" StrokeThickness="2.4" StrokeLineCap="Round"/>
+                                                            <Line StartPoint="33,26" EndPoint="33,2" Stroke="#57B6F1" StrokeThickness="2.4" StrokeLineCap="Round"/>
+                                                            <Line StartPoint="43,26" EndPoint="45,3" Stroke="#57B6F1" StrokeThickness="2.4" StrokeLineCap="Round"/>
+                                                            <Rectangle Canvas.Left="2" Canvas.Top="25" Width="48" Height="16" RadiusX="4" RadiusY="4" Fill="#1C3A5E" Stroke="#57B6F1" StrokeThickness="2"/>
+                                                            <Ellipse Canvas.Left="9" Canvas.Top="31.5" Width="3.2" Height="3.2" Fill="#3FB97A"/>
+                                                            <Ellipse Canvas.Left="16" Canvas.Top="31.5" Width="3.2" Height="3.2" Fill="#3FB97A"/>
+                                                            <Ellipse Canvas.Left="23" Canvas.Top="31.5" Width="3.2" Height="3.2" Fill="#3FB97A"/>
+                                                            <Ellipse Canvas.Left="30" Canvas.Top="31.5" Width="3.2" Height="3.2" Fill="#57B6F1"/>
+                                                            <Ellipse Canvas.Left="37" Canvas.Top="31.5" Width="3.2" Height="3.2" Fill="#57B6F1"/>
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                    <!-- Modem Marka / Model Başlığı -->
+                                                    <StackPanel VerticalAlignment="Center">
+                                                        <TextBlock Text="HUAWEI" FontSize="9.5" FontWeight="Bold" Foreground="{StaticResource FgDim}"/>
+                                                        <TextBlock Text="LG8245X6-50" FontSize="14.5" FontWeight="Bold" Foreground="#57B6F1" Margin="0,-1,0,0"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="16,0,0,0">
+                                                <TextBlock x:Name="AboutToolTitle" Text="Huawei LG8245X6-50 / HG8245X6 ONT &amp; Router Root Aracı" FontSize="14" FontWeight="Bold" Foreground="{StaticResource Fg}"/>
+                                                <TextBlock Text="Huawei OptiXstar / EchoLife Wi-Fi 6 GPON ONT &amp; Router Yönetim Aracı (Linux)" FontSize="11" Foreground="{StaticResource AccentHi}" Margin="0,2,0,0"/>
+                                            </StackPanel>
+                                            <Border Grid.Column="2" Background="{StaticResource AccentLo}" BorderBrush="{StaticResource Accent}" BorderThickness="1" CornerRadius="4" Padding="8,4" VerticalAlignment="Center">
+                                                <TextBlock x:Name="AboutVersionBadge" Text="v2.0.0 Açık Kaynak" FontSize="10.5" FontWeight="SemiBold" Foreground="{StaticResource AccentHi}"/>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+
+                                    <HeaderedContentControl Header="Desteklenen Cihazlar ve Kapsam" Margin="0,0,0,10">
+                                        <StackPanel Margin="2">
+                                            <TextBlock Text="Bu araç, servis sağlayıcılar (Superonline vb.) tarafından kilitlenen Huawei fiber modem / ONT cihazlarında sUser (yönetici) şifresini okumak, değiştirmek ve PPPoE kullanıcı bilgilerinizi öğrenmek için tasarlanmıştır."
+                                                       TextWrapping="Wrap" Margin="2,0,2,8" Foreground="{StaticResource Fg}"/>
+                                            <Grid Margin="0,2,0,2" ColumnDefinitions="*,10,*">
+                                                <Border Grid.Column="0" Background="{StaticResource BgSoft}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="5" Padding="12,9">
+                                                    <StackPanel>
+                                                        <TextBlock Text="Uyumlu Modem Modelleri:" FontWeight="Bold" Foreground="{StaticResource AccentHi}" Margin="0,0,0,5"/>
+                                                        <TextBlock Text="• Huawei LG8245X6-50 / OptiXstar HG8245X6 (Wi-Fi 6 GPON)" FontWeight="SemiBold" Margin="0,0,0,3"/>
+                                                        <TextBlock Text="• Huawei HG8245X6 serisi (HG8245X6-6N / 10 / 8N-30)" Margin="0,0,0,3" Foreground="{StaticResource FgDim}"/>
+                                                        <TextBlock Text="• Benzer V500R021 yazılımlı Huawei ONT / Router cihazları" Margin="0,0,0,1" Foreground="{StaticResource FgDim}"/>
+                                                    </StackPanel>
+                                                </Border>
+                                                <Border Grid.Column="2" Background="{StaticResource BgSoft}" BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="5" Padding="12,9">
+                                                    <StackPanel>
+                                                        <TextBlock Text="Temel Yetenekler:" FontWeight="Bold" Foreground="{StaticResource AccentHi}" Margin="0,0,0,5"/>
+                                                        <TextBlock Text="✔ Gizlenen sUser yönetici şifresini çözme ve listeleme" Margin="0,0,0,3"/>
+                                                        <TextBlock Text="✔ Kendi router'ınız için gerekli PPPoE kullanıcı adı/şifresini alma" Margin="0,0,0,3"/>
+                                                        <TextBlock Text="✔ Fabrika kablosuz ağ (Wi-Fi) şifresi ve SSID bilgilerini okuma" Margin="0,0,0,3"/>
+                                                        <TextBlock Text="✔ İsteğe bağlı yeni sUser şifresi yazma ve SSH shell açma" Margin="0,0,0,1"/>
+                                                    </StackPanel>
+                                                </Border>
+                                            </Grid>
+                                        </StackPanel>
+                                    </HeaderedContentControl>
+
+                                    <HeaderedContentControl Header="Yazılım Lisansı (GNU General Public License v2)" Margin="0,0,0,0">
+                                        <DockPanel Margin="2">
+                                            <DockPanel DockPanel.Dock="Top" Margin="2,0,2,6">
+                                                <TextBlock Text="Bu yazılım, GNU GPL v2 özgür yazılım lisansı şartları altında dağıtılmaktadır."
+                                                           Foreground="{StaticResource FgDim}" VerticalAlignment="Center"/>
+                                                <Button Content="Lisansı Kopyala" Width="116" Height="26" HorizontalAlignment="Right"
+                                                        Classes="GhostButton" Click="CopyLicense_Click"/>
+                                            </DockPanel>
+                                            <TextBox x:Name="LicenseTextBox" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"
+                                                     Height="160" Padding="10,8" FontFamily="Monospace"/>
+                                        </DockPanel>
+                                    </HeaderedContentControl>
+
+                                    <Border x:Name="LiteLegalNote" Background="{StaticResource BgSoft}" BorderBrush="{StaticResource Line}"
+                                            BorderThickness="1" CornerRadius="5" Padding="12,9" Margin="0,10,0,0" IsVisible="False">
+                                        <DockPanel>
+                                            <TextBlock Text="ℹ️ " FontSize="12" VerticalAlignment="Top" Margin="0,1,6,0"/>
+                                            <TextBlock Text="Bu uygulamada üreticiye ait orijinal firmware, yapılandırma dosyaları veya ticari sırlar bulundurmamaktadır. Tüm araçlar, kullanıcının kendi cihazından elde edeceği veriler üzerinde lokal olarak çalışacak şekilde tasarlanmıştır."
+                                                       FontSize="10.5" Foreground="{StaticResource FgDim}" TextWrapping="Wrap" LineHeight="16"/>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </TabItem>
+                    </TabControl>
+                </Border>
+            </DockPanel>
+        </DockPanel>
+    </Border>
+</Window>
