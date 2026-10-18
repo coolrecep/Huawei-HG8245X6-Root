@@ -76,7 +76,7 @@ Uygulama; hem ileri düzey kullanıcılar ve araştırmacılar için **Standart 
   * Wi-Fi ve modem bağlantısı tekrar kurulduğunda (TCP port 80 yoklamasıyla) anında tespit edilir ve başarı mesajı görüntülenir.
 
 ### 4. Donanım / Flash Enjeksiyonu (Race Modu — Standart Sürüm)
-* Web yükleme yolunun kısıtlı olduğu eski yazılımlar için dosya sistemi yarış penceresi (TOCTOU) üzerinden doğrudan SPI-NAND flash belleğe yazma desteği.
+* Web yükleme yolunun kısıtlı olduğu eski yazılımlar için dosya sistemi yarış penceresi (TOCTOU) üzerinden doğrudan SPI-NAND flash belleğe yazma desteği. *(Orijinal TOCTOU keşfi: [foulab](https://foulab.org/))*
 
 ### 5. Cihaz, Optik, WAN, Wi-Fi, DNS, Güvenlik, TR-069 ve Yedekleme Sekmeleri
 * **Cihaz / Optik:** Model, Seri No, Donanım/Yazılım/Bootloader sürümü, MAC, Çalışma süresi, GPON ONT durumu, OLT eşleşmesi ve Optik güç değerleri (`RX dBm`, `TX dBm`, `Besleme V`, `Sıcaklık °C`, `Bias mA`).
@@ -144,6 +144,9 @@ HekzOntRace, Huawei V500R021 mimarisine sahip ağ geçitlerinin iç işleyişine
   ```
 
 ### 4. Donanım / Flash Dosya Sistemi Yarış Mekanizması (TOCTOU & Python v9)
+
+*Bu TOCTOU yarış penceresi tekniğini keşfeden ve belgeleyen [**foulab**](https://foulab.org/)'a teşekkürler.*
+
 - **Samba (Port 445) ve SFTP (Port 8022) Servis Köprüsü:** Modeme takılı USB bellek üzerinden geçici servis hesapları açılır.
 - **Sembolik Bağlantı (Symlink) Manipülasyonu:** `/mnt/usb/...` altındaki bir dosya `/mnt/jffs2/hw_ctree.xml` hedefine sembolik bağ (symlink) yapılır.
 - **Time-of-Check to Time-of-Use (TOCTOU):** Samba dosya paylaşım servisi dosyayı okuyup doğrulamak üzere açtığı anda arka planda çalışan Python yardımcısı (v9) mutex ile sıralı yarış yazıcılarıyla `cur.bin` ve `lnk.bin` dosyalarını milisaniye hassasiyetinde takas eder.
