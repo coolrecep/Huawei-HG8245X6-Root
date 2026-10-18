@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>HekzOntRace</AssemblyName>
+    <RootNamespace>HekzOntRace</RootNamespace>
+    <Version>2.0.0</Version>
+    <AssemblyTitle>HekzOntRace</AssemblyTitle>
+    <Description>Huawei HG8245X6 ONT Yönetim Aracı</Description>
+    <Product>HekzOntRace</Product>
+    <Company>HEKZ</Company>
+    <Copyright>© 2026 HEKZ. Tüm hakları saklıdır.</Copyright>
+    <LangVersion>latest</LangVersion>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(LiteMode)' == 'true'">
+    <DefineConstants>$(DefineConstants);LITE</DefineConstants>
+    <AssemblyName>HekzOntRace-Lite</AssemblyName>
+    <AssemblyTitle>HekzOntRace Lite</AssemblyTitle>
+    <Product>HekzOntRace Lite</Product>
+    <Description>Huawei HG8245X6 Kolay Bilgi ve Şifre Aracı (Lite)</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Linux\**" />
+    <None Remove="Linux\**" />
+    <Page Remove="Linux\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SSH.NET" Version="2026.0.0" />
+    <PackageReference Include="SMBLibrary" Version="1.5.0" />
+  </ItemGroup>
+
+</Project>

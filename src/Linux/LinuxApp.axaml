@@ -1,0 +1,189 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="HekzOntRace.Linux.LinuxApp"
+             RequestedThemeVariant="Dark">
+    <Application.Styles>
+        <FluentTheme />
+        <Style Selector="Window">
+            <Setter Property="Background" Value="#14171F"/>
+            <Setter Property="Foreground" Value="#E6E9F0"/>
+            <Setter Property="FontSize" Value="11.5"/>
+        </Style>
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="#E6E9F0"/>
+        </Style>
+        <Style Selector="Label">
+            <Setter Property="Foreground" Value="#8B93A7"/>
+            <Setter Property="Padding" Value="1,2"/>
+            <Setter Property="FontSize" Value="11.5"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="#232937"/>
+            <Setter Property="Foreground" Value="#E6E9F0"/>
+            <Setter Property="BorderBrush" Value="#323A4D"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="6,3"/>
+            <Setter Property="MinHeight" Value="25"/>
+            <Setter Property="Margin" Value="0,1"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="TextBox[IsReadOnly=True]">
+            <Setter Property="Background" Value="#1C2130"/>
+        </Style>
+        <Style Selector="TextBox.BareSecret">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="2,2"/>
+            <Setter Property="MinHeight" Value="22"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="TextBox.BareSecret:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style Selector="TextBox.BareSecret:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style Selector="Button.EyeToggleButton">
+            <Setter Property="Width" Value="24"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#8B93A7"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="2,0,3,0"/>
+        </Style>
+        <Style Selector="Button.EyeToggleButton:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#2A3142"/>
+            <Setter Property="Foreground" Value="#E6E9F0"/>
+        </Style>
+        <Style Selector="ComboBox">
+            <Setter Property="Background" Value="#232937"/>
+            <Setter Property="Foreground" Value="#E6E9F0"/>
+            <Setter Property="BorderBrush" Value="#323A4D"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="MinHeight" Value="25"/>
+            <Setter Property="Padding" Value="8,2"/>
+        </Style>
+        <Style Selector="Button">
+            <Setter Property="Background" Value="#2F7FD8"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#2F7FD8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="Padding" Value="11,4"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Button:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#4A97EC"/>
+            <Setter Property="BorderBrush" Value="#4A97EC"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="Button:disabled /template/ ContentPresenter">
+            <Setter Property="Background" Value="#232937"/>
+            <Setter Property="BorderBrush" Value="#323A4D"/>
+            <Setter Property="Foreground" Value="#5A6175"/>
+        </Style>
+        <Style Selector="Button.GhostButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#323A4D"/>
+            <Setter Property="Foreground" Value="#4A97EC"/>
+        </Style>
+        <Style Selector="Button.GhostButton:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#1C3A5E"/>
+            <Setter Property="BorderBrush" Value="#2F7FD8"/>
+            <Setter Property="Foreground" Value="#4A97EC"/>
+        </Style>
+        <Style Selector="Button.DangerButton">
+            <Setter Property="Background" Value="#E05A5A"/>
+            <Setter Property="BorderBrush" Value="#E05A5A"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="Button.DangerButton:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#ED7171"/>
+            <Setter Property="BorderBrush" Value="#ED7171"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="Button.TitleBarButton">
+            <Setter Property="Width" Value="44"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#8B93A7"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+        <Style Selector="Button.TitleBarButton:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#2A3142"/>
+            <Setter Property="Foreground" Value="#E6E9F0"/>
+        </Style>
+        <Style Selector="Button.TitleBarCloseButton">
+            <Setter Property="Width" Value="44"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#8B93A7"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+        <Style Selector="Button.TitleBarCloseButton:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#E05A5A"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="TabItem">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#8B93A7"/>
+            <Setter Property="Padding" Value="11,5"/>
+            <Setter Property="MinHeight" Value="30"/>
+        </Style>
+        <Style Selector="TabItem:selected">
+            <Setter Property="Foreground" Value="#E6E9F0"/>
+        </Style>
+        <Style Selector="CheckBox">
+            <Setter Property="Foreground" Value="#E6E9F0"/>
+            <Setter Property="FontSize" Value="11.5"/>
+        </Style>
+        <Style Selector="HeaderedContentControl">
+            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="#1C2130" BorderBrush="#323A4D" BorderThickness="1" CornerRadius="6">
+                        <DockPanel>
+                            <Border DockPanel.Dock="Top" BorderBrush="#323A4D" BorderThickness="0,0,0,1" Padding="10,5">
+                                <TextBlock Text="{TemplateBinding Header}" FontWeight="SemiBold" Foreground="#4A97EC" FontSize="11.5"/>
+                            </Border>
+                            <ContentPresenter Content="{TemplateBinding Content}" Margin="10,7"/>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+    </Application.Styles>
+
+    <Application.Resources>
+        <SolidColorBrush x:Key="Bg"       Color="#14171F"/>
+        <SolidColorBrush x:Key="BgSoft"   Color="#1C2130"/>
+        <SolidColorBrush x:Key="BgCard"   Color="#1A1E2A"/>
+        <SolidColorBrush x:Key="BgInput"  Color="#232937"/>
+        <SolidColorBrush x:Key="BgHover"  Color="#2A3142"/>
+        <SolidColorBrush x:Key="Line"     Color="#323A4D"/>
+        <SolidColorBrush x:Key="Fg"       Color="#E6E9F0"/>
+        <SolidColorBrush x:Key="FgDim"    Color="#8B93A7"/>
+        <SolidColorBrush x:Key="FgOff"    Color="#5A6175"/>
+        <SolidColorBrush x:Key="Accent"   Color="#2F7FD8"/>
+        <SolidColorBrush x:Key="AccentHi" Color="#4A97EC"/>
+        <SolidColorBrush x:Key="AccentLo" Color="#1C3A5E"/>
+        <SolidColorBrush x:Key="Ok"       Color="#3FB97A"/>
+        <SolidColorBrush x:Key="Warn"     Color="#E8B44C"/>
+        <SolidColorBrush x:Key="Err"      Color="#E05A5A"/>
+    </Application.Resources>
+</Application>

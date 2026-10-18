@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <DefineConstants>$(DefineConstants);LINUX_BUILD</DefineConstants>
+    <AssemblyName>HekzOntRace-linux-x64</AssemblyName>
+    <RootNamespace>HekzOntRace</RootNamespace>
+    <Version>2.0.0</Version>
+    <AssemblyTitle>HekzOntRace (Linux)</AssemblyTitle>
+    <Description>Huawei LG8245X6-50 / HG8245X6 ONT Yönetim Aracı (Linux)</Description>
+    <Product>HekzOntRace</Product>
+    <Company>HEKZ</Company>
+    <Copyright>© 2026 HEKZ. Tüm hakları saklıdır.</Copyright>
+    <LangVersion>latest</LangVersion>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(LiteMode)' == 'true'">
+    <DefineConstants>$(DefineConstants);LITE</DefineConstants>
+    <AssemblyName>HekzOntRace-Lite-linux-x64</AssemblyName>
+    <AssemblyTitle>HekzOntRace Lite (Linux)</AssemblyTitle>
+    <Product>HekzOntRace Lite</Product>
+    <Description>Huawei LG8245X6-50 / HG8245X6 Kolay Bilgi ve Şifre Aracı (Linux Lite)</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Core\*.cs" />
+    <Compile Include="AppConfig.cs" />
+    <Compile Include="LiteLogUyarlayici.cs" />
+    <Compile Include="LicenseInfo.cs" />
+    <Compile Include="Linux\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.2.3" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.2.3" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.3" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.3" />
+    <PackageReference Include="SSH.NET" Version="2026.0.0" />
+    <PackageReference Include="SMBLibrary" Version="1.5.0" />
+  </ItemGroup>
+
+</Project>
