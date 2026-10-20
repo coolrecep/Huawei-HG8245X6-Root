@@ -35,6 +35,7 @@ Uygulama; hem ileri düzey kullanıcılar ve araştırmacılar için **Standart 
 - [WAP Diagnostic Komut Referansı](#️-wap-diagnostic-komut-referansı)
 - [Kriptografik Mimari Notları](#-kriptografik-mimari-notları)
 - [Yasal Çerçeve](#️-yasal-çerçeve)
+- [Destek ve İletişim](#-destek-ve-iletişim)
 - [Lisans](#-lisans)
 
 ---
@@ -516,6 +517,14 @@ Bu proje, aşağıdaki yasal çerçeveler kapsamında yürütülmektedir:
 - **Right to Repair (Onarım Hakkı):** Kullanıcının yasal olarak sahip olduğu donanım üzerindeki kontrol hakkı.
 
 Bu depoda üreticiye ait orijinal firmware, yapılandırma dosyaları veya ticari sırlar bulundurmamaktadır. Tüm araçlar, kullanıcının **kendi cihazından** elde edeceği veriler üzerinde **lokal olarak** çalışacak şekilde tasarlanmıştır.
+
+---
+
+## 💬 Destek ve İletişim
+
+Bu depodaki **Issues** bölümü kapalıdır. Sorularınız, sorun bildirimleriniz veya geri bildirimleriniz için lütfen aşağıdaki forum başlığını kullanın:
+
+👉 [**Huawei OptiXstar HG8245X6 Root Süreci — TechOlay Forum**](https://techolay.net/sosyal/konu/huawei-optixstar-hg8245x6-root-sureci.189152/)
 
 ---
 
