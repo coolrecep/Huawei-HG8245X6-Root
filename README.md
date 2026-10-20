@@ -524,7 +524,7 @@ Bu depoda üreticiye ait orijinal firmware, yapılandırma dosyaları veya ticar
 
 Bu depodaki **Issues** bölümü kapalıdır. Sorularınız, sorun bildirimleriniz veya geri bildirimleriniz için lütfen aşağıdaki forum başlığını kullanın:
 
-👉 [**Huawei OptiXstar HG8245X6 Root Süreci — TechOlay Forum**](https://techolay.net/sosyal/konu/huawei-optixstar-hg8245x6-root-sureci.189152/)
+👉 [**Huawei OptiXstar HG8245X6 Root Süreci — Techolay**](https://techolay.net/sosyal/konu/huawei-optixstar-hg8245x6-root-sureci.189152/)
 
 ---
 
