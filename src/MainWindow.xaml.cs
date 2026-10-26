@@ -44,7 +44,7 @@ public partial class MainWindow : Window
     private const string VarsayilanSifre = "superonline";
     private const string MaskeMetni = "••••••••••";
     private readonly Dictionary<TextBox, string> _gizliDegerler = new();
-    private readonly HashSet<string> _acikAlanlar = new();
+    private readonly HashSet<string> _acikAlanlar = new() { "ResAdmin", "ResSuser" };
     private bool _sifreSenkronKilidi;
 
     public MainWindow()
@@ -242,11 +242,11 @@ public partial class MainWindow : Window
         if (AppConfig.IsLite)
         {
             AppNameText.Text = "HekzOntRace Lite";
-            TitleBarMainText.Text = "HekzOntRace Lite v2.0.0";
+            TitleBarMainText.Text = "HekzOntRace Lite v2.0.1";
             TitleBarSubText.Text = "Huawei LG8245X6-50 / HG8245X6 Kolay Bilgi ve Şifre Aracı";
             LiteBadge.Visibility = Visibility.Visible;
             AboutToolTitle.Text = "Huawei LG8245X6-50 / HG8245X6 Kolay Bilgi ve Şifre Aracı (Lite)";
-            AboutVersionBadge.Text = "v2.0.0 Lite Açık Kaynak";
+            AboutVersionBadge.Text = "v2.0.1 Lite Açık Kaynak";
             LiteLegalNote.Visibility = Visibility.Visible;
 
             // Lite modda tehlikeli fiş çekmeli donanım race modu ve teknik simülasyon kutuları gizlenir

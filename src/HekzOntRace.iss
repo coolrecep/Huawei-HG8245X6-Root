@@ -1,11 +1,11 @@
-; HekzOntRace — Inno Setup kurulum betiği (v2.0.0 NewRelase)
+; HekzOntRace — Inno Setup kurulum betiği (v2.0.1 NewRelase)
 ; Derleme: ISCC.exe HekzOntRace.iss  (Inno Setup 6+ gerekir)
 ;
 ; NOT: Önce build.ps1 çalıştırın → publish_final\HekzOntRace.exe oluşur,
 ;      ardından bu .iss ile setup.exe derleyin.
 
 #define UygulamaAdi    "HekzOntRace"
-#define UygulamaVersiyon "2.0.0"
+#define UygulamaVersiyon "2.0.1"
 #define Yayinlayan     "HEKZ"
 #define YayinKlasoru   "publish_final"
 
@@ -17,7 +17,7 @@ AppPublisher={#Yayinlayan}
 DefaultDirName={autopf}\{#UygulamaAdi}
 DefaultGroupName={#UygulamaAdi}
 UninstallDisplayName={#UygulamaAdi}
-OutputBaseFilename=HekzOntRace_v2.0.0_Setup
+OutputBaseFilename=HekzOntRace_v2.0.1_Setup
 OutputDir=installer
 Compression=lzma2/max
 SolidCompression=yes

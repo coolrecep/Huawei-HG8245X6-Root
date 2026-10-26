@@ -1,4 +1,4 @@
-# HekzOntRace v2.0.0 — Huawei LG8245X6-50 / HG8245X6 Yönetici (Root) & Bilgi Aracı
+# HekzOntRace v2.0.1 — Huawei LG8245X6-50 / HG8245X6 Yönetici (Root) & Bilgi Aracı
 
 [![Platform](https://img.shields.io/badge/Platform-Windows%20x64%20%7C%20Linux%20x64-blue.svg)](https://dotnet.microsoft.com/)
 [![Framework](https://img.shields.io/badge/.NET-9.0%20(WPF%20%26%20Avalonia%20UI)-purple.svg)](https://dotnet.microsoft.com/download/dotnet/9.0)

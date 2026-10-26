@@ -14,8 +14,9 @@ public static class LiteLogUyarlayici
 
         if (m.Contains("=== HekzOntRace"))
         {
-            return m.Replace("HekzOntRace v2.3", "HekzOntRace Lite v2.0.0 (Kolay Mod)")
-                    .Replace("HekzOntRace v2.0.0", "HekzOntRace Lite v2.0.0 (Kolay Mod)");
+            return m.Replace("HekzOntRace v2.3", "HekzOntRace Lite v2.0.1 (Kolay Mod)")
+                    .Replace("HekzOntRace v2.0.0", "HekzOntRace Lite v2.0.1 (Kolay Mod)")
+                    .Replace("HekzOntRace v2.0.1", "HekzOntRace Lite v2.0.1 (Kolay Mod)");
         }
 
         if (m.Contains("=== Web Konfigürasyon Enjeksiyonu"))

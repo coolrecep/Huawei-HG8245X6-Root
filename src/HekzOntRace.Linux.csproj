@@ -9,7 +9,7 @@
     <DefineConstants>$(DefineConstants);LINUX_BUILD</DefineConstants>
     <AssemblyName>HekzOntRace-linux-x64</AssemblyName>
     <RootNamespace>HekzOntRace</RootNamespace>
-    <Version>2.0.0</Version>
+    <Version>2.0.1</Version>
     <AssemblyTitle>HekzOntRace (Linux)</AssemblyTitle>
     <Description>Huawei LG8245X6-50 / HG8245X6 ONT Yönetim Aracı (Linux)</Description>
     <Product>HekzOntRace</Product>

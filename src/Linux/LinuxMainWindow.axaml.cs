@@ -36,7 +36,7 @@ public partial class LinuxMainWindow : Window
     private const string VarsayilanSifre = "superonline";
     private const string MaskeMetni = "••••••••••";
     private readonly Dictionary<TextBox, string> _gizliDegerler = new();
-    private readonly HashSet<string> _acikAlanlar = new();
+    private readonly HashSet<string> _acikAlanlar = new() { "ResAdmin", "ResSuser" };
 
     private static readonly IBrush BrushFgDim    = new SolidColorBrush(Color.Parse("#8B93A7"));
     private static readonly IBrush BrushAccentHi = new SolidColorBrush(Color.Parse("#4A97EC"));
@@ -186,11 +186,11 @@ public partial class LinuxMainWindow : Window
         if (AppConfig.IsLite)
         {
             AppNameText.Text = "HekzOntRace Lite";
-            TitleBarMainText.Text = "HekzOntRace Lite v2.0.0";
+            TitleBarMainText.Text = "HekzOntRace Lite v2.0.1";
             TitleBarSubText.Text = "Huawei LG8245X6-50 / HG8245X6 Kolay Bilgi ve Şifre Aracı (Linux)";
             LiteBadge.IsVisible = true;
             AboutToolTitle.Text = "Huawei LG8245X6-50 / HG8245X6 Kolay Bilgi ve Şifre Aracı (Lite)";
-            AboutVersionBadge.Text = "v2.0.0 Lite Açık Kaynak";
+            AboutVersionBadge.Text = "v2.0.1 Lite Açık Kaynak";
             LiteLegalNote.IsVisible = true;
 
             SuserYazBtn.IsVisible = false;

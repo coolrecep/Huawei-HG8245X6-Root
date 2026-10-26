@@ -1,4 +1,4 @@
-# build.ps1 — HekzOntRace v2.0.0 Windows + Linux (Standart + Lite) Tek-Tik Derleme
+# build.ps1 — HekzOntRace v2.0.1 Windows + Linux (Standart + Lite) Tek-Tik Derleme
 # Kullanim: Projenin kok klasorunde sag tik -> "PowerShell ile calistir"
 #          veya terminal:  pwsh -File .\build.ps1
 #
